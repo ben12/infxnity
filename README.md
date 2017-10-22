@@ -24,9 +24,9 @@ final MaskCharacter[] mask = MaskBuilder.newBuilder()
 textField.setTextFormatter(new TextFormatter<>(new MaskTextFilter(textField, false, mask)));
 ```
 
-Default text will be "+33 6 00 00 00 00".
-Caret will be placed in 4th position : "+33 |6 00 00 00 00".
-An navigation to the right will do that:  
+Default text will be "+33 6 00 00 00 00".  
+Caret will be placed in 4th position : "+33 |6 00 00 00 00".  
+Navigate to the right will do that:  
 "+33 6 |00 00 00 00"  
 "+33 6 0|0 00 00 00"  
 "+33 6 00 |00 00 00"  
