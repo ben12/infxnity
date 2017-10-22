@@ -22,41 +22,37 @@ import javafx.scene.control.TextInputControl;
  * <p>
  * Mask to use as filter for {@link javafx.scene.control.TextFormatter TextFormatter}.
  * </p>
- * <p>
  * Example for create a {@link javafx.scene.control.TextField TextField} allowing only french phone numbers:
- * 
  * <pre>
- * <code>
- * final {@link javafx.scene.control.TextField TextField} textField = new {@link javafx.scene.control.TextField TextField}();
- * final {@link MaskCharacter}[] mask = {@link MaskBuilder}.newBuilder()
- * 	.appendLiteral("+33 ")
- * 	.appendDigit('6')
- * 	.appendLiteral(" ")
- * 	.appendDigit(2)
- * 	.appendLiteral(" ")
- * 	.appendDigit(2)
- * 	.appendLiteral(" ")
- * 	.appendDigit(2)
- * 	.appendLiteral(" ")
- * 	.appendDigit(2)
- * 	.build();
- * textField.setTextFormatter(new {@link javafx.scene.control.TextFormatter TextFormatter}<>(new {@link MaskTextFilter}(textField, false, mask)));
- * </code>
+ * {@code
+ * 	final TextField textField = new TextField();
+ * 	final MaskCharacter[] mask = MaskBuilder.newBuilder()
+ * 			.appendLiteral("+33 ")
+ * 			.appendDigit('6')
+ * 			.appendLiteral(" ")
+ * 			.appendDigit(2)
+ * 			.appendLiteral(" ")
+ * 			.appendDigit(2)
+ * 			.appendLiteral(" ")
+ * 			.appendDigit(2)
+ * 			.appendLiteral(" ")
+ * 			.appendDigit(2)
+ * 			.build();
+ * 	textField.setTextFormatter(new TextFormatter<>(new MaskTextFilter(textField, false, mask)));
+ * }
  * </pre>
- * 
- * Default text will be "+33 6 00 00 00 00".<br/>
- * Caret will be placed in 4th position : "+33 |6 00 00 00 00".<br/>
- * An navigation to the right will do that:<br/>
- * "+33 6 |00 00 00 00"<br/>
- * "+33 6 0|0 00 00 00"<br/>
- * "+33 6 00 |00 00 00"<br/>
- * "+33 6 00 0|0 00 00"<br/>
- * "+33 6 00 00 |00 00"<br/>
- * "+33 6 00 00 0|0 00"<br/>
- * "+33 6 00 00 00 |00"<br/>
- * "+33 6 00 00 00 0|0"<br/>
- * "+33 6 00 00 00 00|"<br/>
- * </p>
+ * Default text will be "+33 6 00 00 00 00".<br>
+ * Caret will be placed in 4th position : "+33 |6 00 00 00 00".<br>
+ * An navigation to the right will do that:<br>
+ * "+33 6 |00 00 00 00"<br>
+ * "+33 6 0|0 00 00 00"<br>
+ * "+33 6 00 |00 00 00"<br>
+ * "+33 6 00 0|0 00 00"<br>
+ * "+33 6 00 00 |00 00"<br>
+ * "+33 6 00 00 0|0 00"<br>
+ * "+33 6 00 00 00 |00"<br>
+ * "+33 6 00 00 00 0|0"<br>
+ * "+33 6 00 00 00 00|"<br>
  * 
  * @author Benoît Moreau (ben.12)
  * @see MaskBuilder

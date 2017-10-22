@@ -364,10 +364,6 @@ public class MaskBuilder implements Builder<MaskCharacter[]>
 	 * Appends a character where any character are allowed.
 	 * Default value is ' '.
 	 * 
-	 * @param repeat
-	 *            number of character to append
-	 * @param defaultValue
-	 *            the default value for each character
 	 * @return this {@link MaskBuilder}
 	 */
 	public MaskBuilder appendAny()
@@ -470,11 +466,11 @@ public class MaskBuilder implements Builder<MaskCharacter[]>
 	 *            the {@link MaskCharacter} to append
 	 * @return this {@link MaskBuilder}
 	 */
-	public MaskBuilder append(final int repeat, final MaskCharacter pMaskCharacter)
+	public MaskBuilder append(final int repeat, final MaskCharacter maskCharacter)
 	{
 		for (int i = 0; i < repeat; i++)
 		{
-			mask.add(pMaskCharacter);
+			mask.add(maskCharacter);
 		}
 		return this;
 	}

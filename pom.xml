@@ -5,7 +5,22 @@
 	<artifactId>infxnity</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>infxnity</name>
+	<url>https://infxnity.ben12.eu</url>
 	<description>JavaFX "to infinity and beyond"</description>
+	<contributors>
+		<contributor>
+			<name>ben.12</name>
+			<url>https://github.com/ben12</url>
+			<timezone>Europe/Paris</timezone>
+		</contributor>
+	</contributors>
+	<developers>
+		<developer>
+			<name>ben.12</name>
+			<url>https://github.com/ben12</url>
+			<timezone>Europe/Paris</timezone>
+		</developer>
+	</developers>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -36,12 +51,59 @@
 		</dependency>
 	</dependencies>
 	<reporting>
+		<outputDirectory>${project.basedir}/docs</outputDirectory>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-report-plugin</artifactId>
-				<version>2.20.1</version>
+				<artifactId>maven-changes-plugin</artifactId>
+				<version>2.12.1</version>
+				<inherited>false</inherited>
+				<configuration>
+					<onlyMilestoneIssues>true</onlyMilestoneIssues>
+					<includeOpenIssues>false</includeOpenIssues>
+					<onlyCurrentVersion>false</onlyCurrentVersion>
+				</configuration>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>github-report</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.0.0-M1</version>
+				<configuration>
+					<show>protected</show>
+					<links>
+						<link>https://docs.oracle.com/javase/8/docs/api/</link>
+						<link>https://docs.oracle.com/javase/8/javafx/api/</link>
+					</links>
+				</configuration>
 			</plugin>
 		</plugins>
 	</reporting>
+	<distributionManagement>
+		<site>
+			<id>infxnity</id>
+			<url>https://infxnity.ben12.eu</url>
+		</site>
+	</distributionManagement>
+	<issueManagement>
+		<system>GitHub</system>
+		<url>https://github.com/ben12/infxnity/issues</url>
+	</issueManagement>
+	<scm>
+		<url>https://github.com/ben12/infxnity</url>
+		<connection>scm:git:git://github.com/ben12/infxnity.git</connection>
+		<developerConnection>scm:git:git@github.com:ben12/infxnity.git</developerConnection>
+	</scm>
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>${project.basedir}/LICENSE</url>
+		</license>
+	</licenses>
 </project>
