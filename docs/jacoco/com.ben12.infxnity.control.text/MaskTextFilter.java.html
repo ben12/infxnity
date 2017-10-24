@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MaskTextFilter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">infxnity</a> &gt; <a href="index.source.html" class="el_package">com.ben12.infxnity.control.text</a> &gt; <span class="el_source">MaskTextFilter.java</span></div><h1>MaskTextFilter.java</h1><pre class="source lang-java linenums">// Copyright (C) 2017 Benoît Moreau (ben.12)
+// 
+// This software may be modified and distributed under the terms
+// of the MIT license.  See the LICENSE file for details.
+package com.ben12.infxnity.control.text;
+
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.function.UnaryOperator;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
+import javafx.beans.NamedArg;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.control.Control;
+import javafx.scene.control.TextFormatter.Change;
+import javafx.scene.control.TextInputControl;
+
+/**
+ * &lt;p&gt;
+ * Mask to use as filter for {@link javafx.scene.control.TextFormatter TextFormatter}.
+ * &lt;/p&gt;
+ * Example for create a {@link javafx.scene.control.TextField TextField} allowing only french phone numbers:
+ * &lt;pre&gt;
+ * {@code
+ * 	final TextField textField = new TextField();
+ * 	final MaskCharacter[] mask = MaskBuilder.newBuilder()
+ * 			.appendLiteral(&quot;+33 &quot;)
+ * 			.appendDigit('6')
+ * 			.appendLiteral(&quot; &quot;)
+ * 			.appendDigit(2)
+ * 			.appendLiteral(&quot; &quot;)
+ * 			.appendDigit(2)
+ * 			.appendLiteral(&quot; &quot;)
+ * 			.appendDigit(2)
+ * 			.appendLiteral(&quot; &quot;)
+ * 			.appendDigit(2)
+ * 			.build();
+ * 	textField.setTextFormatter(new TextFormatter&lt;&gt;(new MaskTextFilter(textField, false, mask)));
+ * }
+ * &lt;/pre&gt;
+ * Default text will be &quot;+33 6 00 00 00 00&quot;.&lt;br&gt;
+ * Caret will be placed in 4th position : &quot;+33 |6 00 00 00 00&quot;.&lt;br&gt;
+ * An navigation to the right will do that:&lt;br&gt;
+ * &quot;+33 6 |00 00 00 00&quot;&lt;br&gt;
+ * &quot;+33 6 0|0 00 00 00&quot;&lt;br&gt;
+ * &quot;+33 6 00 |00 00 00&quot;&lt;br&gt;
+ * &quot;+33 6 00 0|0 00 00&quot;&lt;br&gt;
+ * &quot;+33 6 00 00 |00 00&quot;&lt;br&gt;
+ * &quot;+33 6 00 00 0|0 00&quot;&lt;br&gt;
+ * &quot;+33 6 00 00 00 |00&quot;&lt;br&gt;
+ * &quot;+33 6 00 00 00 0|0&quot;&lt;br&gt;
+ * &quot;+33 6 00 00 00 00|&quot;&lt;br&gt;
+ * 
+ * @author Benoît Moreau (ben.12)
+ * @see MaskBuilder
+ */
+public class MaskTextFilter implements UnaryOperator&lt;Change&gt;
+{
+	private final MaskCharacter[]	mask;
+
+<span class="pc" id="L64">	private Control					settingDefaultOn	= null;</span>
+
+	/**
+	 * @param pMask
+	 *            the mask to use
+	 */
+	public MaskTextFilter(@NamedArg(&quot;mask&quot;) final MaskCharacter... pMask)
+<span class="nc" id="L71">	{</span>
+<span class="nc" id="L72">		mask = Arrays.copyOf(pMask, pMask.length);</span>
+<span class="nc" id="L73">	}</span>
+
+	/**
+	 * @param input
+	 *            {@link TextInputControl} where the filter will be applied
+	 * @param setDefaultOnFocus
+	 *            true to set the default value when it gain the focus, otherwise the default value is immediately applied
+	 * @param pMask
+	 *            the mask to use
+	 */
+	public MaskTextFilter(final TextInputControl input, final boolean setDefaultOnFocus, final MaskCharacter... pMask)
+<span class="fc" id="L84">	{</span>
+<span class="fc" id="L85">		mask = Arrays.copyOf(pMask, pMask.length);</span>
+
+<span class="fc" id="L87">		install(input, setDefaultOnFocus);</span>
+<span class="fc" id="L88">	}</span>
+
+	/**
+	 * @param input
+	 *            {@link TextInputControl} where set the default value
+	 * @param setDefaultOnFocus
+	 *            true to set the default value when it gain the focus, otherwise the default value is immediately applied
+	 */
+	public void install(final TextInputControl input, final boolean setDefaultOnFocus)
+	{
+<span class="pc bpc" id="L98" title="1 of 2 branches missed.">		if (input != null)</span>
+		{
+<span class="pc bpc" id="L100" title="1 of 2 branches missed.">			if (!setDefaultOnFocus)</span>
+			{
+<span class="nc" id="L102">				applyDefault(input);</span>
+			}
+			else
+			{
+<span class="fc" id="L106">				final ChangeListener&lt;Boolean&gt; focusListener = new ChangeListener&lt;Boolean&gt;()</span>
+<span class="fc" id="L107">				{</span>
+					@Override
+					public void changed(final ObservableValue&lt;? extends Boolean&gt; observable, final Boolean oldValue,
+							final Boolean newValue)
+					{
+<span class="pc bpc" id="L112" title="2 of 6 branches missed.">						if ((observable == input.focusedProperty() &amp;&amp; newValue &amp;&amp; !input.isPressed())</span>
+<span class="pc bpc" id="L113" title="1 of 6 branches missed.">								|| (observable == input.pressedProperty() &amp;&amp; !newValue &amp;&amp; input.isFocused()))</span>
+						{
+<span class="fc" id="L115">							applyDefault(input);</span>
+<span class="fc" id="L116">							input.focusedProperty().removeListener(this);</span>
+<span class="fc" id="L117">							input.pressedProperty().removeListener(this);</span>
+						}
+<span class="fc" id="L119">					}</span>
+				};
+
+<span class="fc" id="L122">				input.focusedProperty().addListener(focusListener);</span>
+<span class="fc" id="L123">				input.pressedProperty().addListener(focusListener);</span>
+			}
+		}
+<span class="fc" id="L126">	}</span>
+
+	/**
+	 * @param input
+	 *            {@link TextInputControl} where set the default value
+	 */
+	public void applyDefault(final TextInputControl input)
+	{
+		try
+		{
+<span class="fc" id="L136">			settingDefaultOn = input;</span>
+<span class="fc" id="L137">			final String defaultText = Stream.of(mask)</span>
+<span class="fc" id="L138">					.map(m -&gt; Character.toString(m.getDefault()))</span>
+<span class="fc" id="L139">					.collect(Collectors.joining());</span>
+<span class="fc" id="L140">			input.setText(defaultText);</span>
+
+<span class="fc" id="L142">			final int firstAllowedPosition = IntStream.range(0, mask.length)</span>
+<span class="fc" id="L143">					.filter(i -&gt; mask[i].isNavigable())</span>
+<span class="fc" id="L144">					.findFirst()</span>
+<span class="fc" id="L145">					.orElse(0);</span>
+<span class="fc" id="L146">			input.selectRange(firstAllowedPosition, firstAllowedPosition);</span>
+		}
+		finally
+		{
+<span class="pc" id="L150">			settingDefaultOn = null;</span>
+<span class="fc" id="L151">		}</span>
+<span class="fc" id="L152">	}</span>
+
+	@Override
+	public Change apply(final Change c)
+	{
+<span class="fc bfc" id="L157" title="All 2 branches covered.">		if (settingDefaultOn == c.getControl())</span>
+		{
+<span class="fc" id="L159">			return c;</span>
+		}
+
+<span class="fc bfc" id="L162" title="All 4 branches covered.">		if (c.isContentChange() &amp;&amp; !correctContentChange(c))</span>
+		{
+<span class="fc" id="L164">			return null;</span>
+		}
+
+<span class="fc" id="L167">		adjustCaretPosition(c);</span>
+
+<span class="fc" id="L169">		return c;</span>
+	}
+
+	private boolean correctContentChange(final Change c)
+	{
+<span class="fc" id="L174">		Optional&lt;String&gt; correctNewText = Optional.empty();</span>
+
+<span class="fc bfc" id="L176" title="All 2 branches covered.">		if (c.isReplaced())</span>
+		{
+<span class="fc" id="L178">			correctNewText = correctReplacedText(c);</span>
+		}
+<span class="pc bpc" id="L180" title="1 of 2 branches missed.">		else if (c.isAdded())</span>
+		{
+<span class="fc" id="L182">			correctNewText = correctAddedText(c);</span>
+		}
+<span class="nc bnc" id="L184" title="All 2 branches missed.">		else if (c.isDeleted())</span>
+		{
+<span class="nc" id="L186">			correctNewText = correctDeletedText(c);</span>
+		}
+
+<span class="fc bfc" id="L189" title="All 2 branches covered.">		if (correctNewText.isPresent())</span>
+		{
+<span class="fc" id="L191">			final int start = c.getRangeStart();</span>
+<span class="fc" id="L192">			c.setRange(start, Math.min(start + correctNewText.get().length(), c.getControlText().length()));</span>
+<span class="fc" id="L193">			c.setText(correctNewText.get());</span>
+		}
+
+<span class="fc" id="L196">		return correctNewText.isPresent();</span>
+	}
+
+	private Optional&lt;String&gt; correctReplacedText(final Change c)
+	{
+<span class="fc" id="L201">		final int start = c.getRangeStart();</span>
+<span class="fc" id="L202">		final int end = c.getRangeEnd();</span>
+<span class="fc" id="L203">		final String text = c.getText();</span>
+
+<span class="fc" id="L205">		final StringBuilder newText = new StringBuilder(end - start);</span>
+<span class="pc bpc" id="L206" title="2 of 6 branches missed.">		for (int i = start; i - start &lt; text.length() &amp;&amp; i &lt; end &amp;&amp; i &lt; mask.length; i++)</span>
+		{
+<span class="fc" id="L208">			final char ch = text.charAt(i - start);</span>
+<span class="fc bfc" id="L209" title="All 2 branches covered.">			if (mask[i].isAllowed(ch))</span>
+			{
+<span class="fc" id="L211">				newText.append(mask[i].tranform(ch));</span>
+			}
+			else
+			{
+<span class="fc" id="L215">				return Optional.empty();</span>
+			}
+		}
+
+<span class="pc bpc" id="L219" title="3 of 4 branches missed.">		for (int i = start + text.length(); i &lt; end &amp;&amp; i &lt; mask.length; i++)</span>
+		{
+<span class="nc" id="L221">			newText.append(mask[i].getDefault());</span>
+		}
+
+<span class="fc" id="L224">		return Optional.of(newText.toString());</span>
+	}
+
+	private Optional&lt;String&gt; correctAddedText(final Change c)
+	{
+<span class="fc" id="L229">		final int start = c.getRangeStart();</span>
+<span class="fc" id="L230">		final String text = c.getText();</span>
+
+<span class="fc" id="L232">		final StringBuilder newText = new StringBuilder(text.length());</span>
+
+<span class="pc bpc" id="L234" title="1 of 4 branches missed.">		for (int i = start; i - start &lt; text.length() &amp;&amp; i &lt; mask.length; i++)</span>
+		{
+<span class="fc" id="L236">			final char ch = text.charAt(i - start);</span>
+<span class="fc bfc" id="L237" title="All 2 branches covered.">			if (mask[i].isAllowed(ch))</span>
+			{
+<span class="fc" id="L239">				newText.append(mask[i].tranform(ch));</span>
+			}
+			else
+			{
+<span class="fc" id="L243">				return Optional.empty();</span>
+			}
+		}
+
+<span class="fc" id="L247">		return Optional.of(newText.toString());</span>
+	}
+
+	private Optional&lt;String&gt; correctDeletedText(final Change c)
+	{
+<span class="nc" id="L252">		int start = c.getRangeStart();</span>
+<span class="nc" id="L253">		final int end = c.getRangeEnd();</span>
+
+<span class="nc" id="L255">		final StringBuilder newText = new StringBuilder(end - start);</span>
+
+<span class="nc bnc" id="L257" title="All 2 branches missed.">		for (int i = start; i &lt; end; i++)</span>
+		{
+<span class="nc" id="L259">			newText.append(mask[i].getDefault());</span>
+		}
+
+		// For backspace case
+<span class="nc bnc" id="L263" title="All 4 branches missed.">		for (int i = start; i &gt; 0 &amp;&amp; !mask[i].isNavigable(); i--, start--)</span>
+		{
+<span class="nc" id="L265">			newText.insert(0, mask[i - 1].getDefault());</span>
+		}
+
+<span class="nc" id="L268">		c.setRange(start, end);</span>
+
+<span class="nc" id="L270">		return Optional.of(newText.toString());</span>
+	}
+
+	private void adjustCaretPosition(final Change c)
+	{
+<span class="fc" id="L275">		final int oldPosition = c.getControlCaretPosition();</span>
+<span class="fc" id="L276">		int position = Math.min(c.getCaretPosition(), mask.length);</span>
+<span class="fc bfc" id="L277" title="All 2 branches covered.">		if (oldPosition != position)</span>
+		{
+<span class="fc bfc" id="L279" title="All 2 branches covered.">			final int sign = (position &gt; oldPosition ? 1 : -1);</span>
+<span class="pc bpc" id="L280" title="1 of 6 branches missed.">			while (position &gt; 0 &amp;&amp; position &lt; mask.length &amp;&amp; !mask[position].isNavigable())</span>
+			{
+<span class="fc" id="L282">				position += sign;</span>
+			}
+<span class="pc bpc" id="L284" title="1 of 4 branches missed.">			while (position &lt; mask.length &amp;&amp; !mask[position].isNavigable())</span>
+			{
+<span class="nc" id="L286">				position++;</span>
+			}
+		}
+
+<span class="fc" id="L290">		position = Math.min(position, c.getControlNewText().length());</span>
+
+<span class="fc bfc" id="L292" title="All 2 branches covered.">		if (c.getAnchor() == c.getCaretPosition())</span>
+		{
+<span class="fc" id="L294">			c.setAnchor(position);</span>
+		}
+<span class="fc" id="L296">		c.setCaretPosition(position);</span>
+<span class="fc" id="L297">	}</span>
+
+	/**
+	 * Mask character interface.
+	 * 
+	 * @author Benoît Moreau (ben.12)
+	 */
+	public interface MaskCharacter
+	{
+		/**
+		 * @param c
+		 *            an input character
+		 * @return true if the character is allowed, false otherwise
+		 */
+		boolean isAllowed(char c);
+
+		/**
+		 * @param c
+		 *            an input character
+		 * @return the transformed character to set
+		 */
+		char tranform(char c);
+
+		/**
+		 * @return the default character
+		 */
+		char getDefault();
+
+		/**
+		 * @return true if caret can be placed before the character, false otherwise
+		 */
+		boolean isNavigable();
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

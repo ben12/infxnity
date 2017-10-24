@@ -1,11 +1,13 @@
 # infxnity
 JavaFX "to infinity and beyond"
 
+[![Quality Gate](https://sonarcloud.io/api/badges/gate?key=com.ben12:infxnity&metric=coverage)](https://sonarcloud.io/dashboard?id=com.ben12%3Ainfxnity)
+
 ## Features
 
 ### MaskTextFilter
 
-Example for create a `TextField` allowing only french phone numbers: 
+Example to create a `TextField` allowing only french phone numbers: 
 
 ```java
 final TextField textField = new TextField();
