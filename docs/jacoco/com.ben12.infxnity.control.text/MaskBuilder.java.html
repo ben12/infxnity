@@ -355,7 +355,7 @@ import javafx.util.Builder;
 	{
 <span class="fc" id="L356">		return append(repeat,</span>
 <span class="fc bfc" id="L357" title="All 16 branches covered.">				c -&gt; (c == '0' || c == '1' || c == '2' || c == '3' || c == '4' || c == '5' || c == '6' || c == '7'</span>
-<span class="pc bpc" id="L358" title="2 of 16 branches missed.">						|| c == '8' || c == '9' || c == 'a' || c == 'A' || c == 'b' || c == 'B' || c == 'c' || c == 'C'</span>
+<span class="pc bpc" id="L358" title="1 of 16 branches missed.">						|| c == '8' || c == '9' || c == 'a' || c == 'A' || c == 'b' || c == 'B' || c == 'c' || c == 'C'</span>
 <span class="pc bpc" id="L359" title="3 of 12 branches missed.">						|| c == 'd' || c == 'D' || c == 'e' || c == 'E' || c == 'f' || c == 'F'),</span>
 				Character::toUpperCase, defaultValue);
 	}
@@ -539,7 +539,7 @@ import javafx.util.Builder;
 		@Override
 		public boolean isAllowed(final char c)
 		{
-<span class="pc bpc" id="L542" title="1 of 2 branches missed.">			return constant == c;</span>
+<span class="fc bfc" id="L542" title="All 2 branches covered.">			return constant == c;</span>
 		}
 
 		@Override

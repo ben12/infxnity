@@ -5,7 +5,7 @@
 	<artifactId>infxnity</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>infxnity</name>
-	<url>https://infxnity.ben12.eu</url>
+	<url>http://infxnity.ben12.eu</url>
 	<description>JavaFX "to infinity and beyond"</description>
 	<contributors>
 		<contributor>

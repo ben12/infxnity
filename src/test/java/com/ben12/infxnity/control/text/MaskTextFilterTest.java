@@ -89,10 +89,12 @@ public class MaskTextFilterTest extends ApplicationTest
 
 	private static final String						DEFAULT_TEXT	= "\\0,0.a$a!aAU ^_/";
 
+	private TextField								textField;
+
 	@Override
 	public void start(final Stage stage) throws Exception
 	{
-		final TextField textField = new TextField();
+		textField = new TextField();
 		textField.setId("formatted");
 
 		final MaskCharacter[] mask = MaskBuilder.newBuilder()
@@ -189,7 +191,7 @@ public class MaskTextFilterTest extends ApplicationTest
 	{
 		clickOn("#formatted");
 
-		interact(() -> ((TextField) lookup("#formatted").query()).selectRange(1, 1));
+		interact(() -> textField.selectRange(1, 1));
 
 		verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 1);
 		type(KeyCode.A);
@@ -201,7 +203,7 @@ public class MaskTextFilterTest extends ApplicationTest
 			type(e.getKey());
 			verifyThat("#formatted", hasText("\\" + e.getValue() + ",0.a$a!aAU ^_/"));
 			verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 3);
-			interact(() -> ((TextField) lookup("#formatted").query()).selectRange(1, 1));
+			interact(() -> textField.selectRange(1, 1));
 		}
 	}
 
@@ -210,7 +212,7 @@ public class MaskTextFilterTest extends ApplicationTest
 	{
 		clickOn("#formatted");
 
-		interact(() -> ((TextField) lookup("#formatted").query()).selectRange(3, 3));
+		interact(() -> textField.selectRange(3, 3));
 
 		verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 3);
 		type(KeyCode.G);
@@ -222,7 +224,7 @@ public class MaskTextFilterTest extends ApplicationTest
 			type(e.getKey());
 			verifyThat("#formatted", hasText("\\0," + e.getValue() + ".a$a!aAU ^_/"));
 			verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 5);
-			interact(() -> ((TextField) lookup("#formatted").query()).selectRange(3, 3));
+			interact(() -> textField.selectRange(3, 3));
 		}
 	}
 
@@ -231,7 +233,7 @@ public class MaskTextFilterTest extends ApplicationTest
 	{
 		clickOn("#formatted");
 
-		interact(() -> ((TextField) lookup("#formatted").query()).selectRange(5, 5));
+		interact(() -> textField.selectRange(5, 5));
 
 		verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 5);
 		type(KeyCode.NUMPAD0);
@@ -243,7 +245,7 @@ public class MaskTextFilterTest extends ApplicationTest
 			type(e.getKey());
 			verifyThat("#formatted", hasText("\\0,0." + e.getValue() + "$a!aAU ^_/"));
 			verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 7);
-			interact(() -> ((TextField) lookup("#formatted").query()).selectRange(5, 5));
+			interact(() -> textField.selectRange(5, 5));
 		}
 
 		try
@@ -254,7 +256,7 @@ public class MaskTextFilterTest extends ApplicationTest
 				type(e.getKey());
 				verifyThat("#formatted", hasText("\\0,0." + e.getValue() + "$a!aAU ^_/"));
 				verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 7);
-				interact(() -> ((TextField) lookup("#formatted").query()).selectRange(5, 5));
+				interact(() -> textField.selectRange(5, 5));
 			}
 		}
 		finally
@@ -268,7 +270,7 @@ public class MaskTextFilterTest extends ApplicationTest
 	{
 		clickOn("#formatted");
 
-		interact(() -> ((TextField) lookup("#formatted").query()).selectRange(7, 7));
+		interact(() -> textField.selectRange(7, 7));
 
 		verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 7);
 		type(KeyCode.ADD);
@@ -280,7 +282,7 @@ public class MaskTextFilterTest extends ApplicationTest
 			type(e.getKey());
 			verifyThat("#formatted", hasText("\\0,0.a$" + e.getValue() + "!aAU ^_/"));
 			verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 9);
-			interact(() -> ((TextField) lookup("#formatted").query()).selectRange(7, 7));
+			interact(() -> textField.selectRange(7, 7));
 		}
 
 		try
@@ -291,7 +293,7 @@ public class MaskTextFilterTest extends ApplicationTest
 				type(e.getKey());
 				verifyThat("#formatted", hasText("\\0,0.a$" + e.getValue() + "!aAU ^_/"));
 				verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 9);
-				interact(() -> ((TextField) lookup("#formatted").query()).selectRange(7, 7));
+				interact(() -> textField.selectRange(7, 7));
 			}
 		}
 		finally
@@ -304,7 +306,7 @@ public class MaskTextFilterTest extends ApplicationTest
 			type(e.getKey());
 			verifyThat("#formatted", hasText("\\0,0.a$" + e.getValue() + "!aAU ^_/"));
 			verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 9);
-			interact(() -> ((TextField) lookup("#formatted").query()).selectRange(7, 7));
+			interact(() -> textField.selectRange(7, 7));
 		}
 	}
 
@@ -313,7 +315,7 @@ public class MaskTextFilterTest extends ApplicationTest
 	{
 		clickOn("#formatted");
 
-		interact(() -> ((TextField) lookup("#formatted").query()).selectRange(9, 9));
+		interact(() -> textField.selectRange(9, 9));
 
 		verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 9);
 		type(KeyCode.MULTIPLY);
@@ -325,7 +327,7 @@ public class MaskTextFilterTest extends ApplicationTest
 			type(e.getKey());
 			verifyThat("#formatted", hasText("\\0,0.a$a!" + e.getValue() + "AU ^_/"));
 			verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 10);
-			interact(() -> ((TextField) lookup("#formatted").query()).selectRange(9, 9));
+			interact(() -> textField.selectRange(9, 9));
 		}
 
 		try
@@ -336,7 +338,7 @@ public class MaskTextFilterTest extends ApplicationTest
 				type(e.getKey());
 				verifyThat("#formatted", hasText("\\0,0.a$a!" + Character.toLowerCase(e.getValue()) + "AU ^_/"));
 				verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 10);
-				interact(() -> ((TextField) lookup("#formatted").query()).selectRange(9, 9));
+				interact(() -> textField.selectRange(9, 9));
 			}
 		}
 		finally
@@ -350,7 +352,7 @@ public class MaskTextFilterTest extends ApplicationTest
 	{
 		clickOn("#formatted");
 
-		interact(() -> ((TextField) lookup("#formatted").query()).selectRange(10, 10));
+		interact(() -> textField.selectRange(10, 10));
 
 		verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 10);
 		type(KeyCode.COMMA);
@@ -362,7 +364,7 @@ public class MaskTextFilterTest extends ApplicationTest
 			type(e.getKey());
 			verifyThat("#formatted", hasText("\\0,0.a$a!a" + Character.toUpperCase(e.getValue()) + "U ^_/"));
 			verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 12);
-			interact(() -> ((TextField) lookup("#formatted").query()).selectRange(10, 10));
+			interact(() -> textField.selectRange(10, 10));
 		}
 
 		try
@@ -373,7 +375,7 @@ public class MaskTextFilterTest extends ApplicationTest
 				type(e.getKey());
 				verifyThat("#formatted", hasText("\\0,0.a$a!a" + e.getValue() + "U ^_/"));
 				verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 12);
-				interact(() -> ((TextField) lookup("#formatted").query()).selectRange(10, 10));
+				interact(() -> textField.selectRange(10, 10));
 			}
 		}
 		finally
@@ -387,7 +389,7 @@ public class MaskTextFilterTest extends ApplicationTest
 	{
 		clickOn("#formatted");
 
-		interact(() -> ((TextField) lookup("#formatted").query()).selectRange(12, 12));
+		interact(() -> textField.selectRange(12, 12));
 
 		verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 12);
 
@@ -396,7 +398,7 @@ public class MaskTextFilterTest extends ApplicationTest
 			type(e.getKey());
 			verifyThat("#formatted", hasText("\\0,0.a$a!aAU" + e.getValue() + "^_/"));
 			verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 14);
-			interact(() -> ((TextField) lookup("#formatted").query()).selectRange(12, 12));
+			interact(() -> textField.selectRange(12, 12));
 		}
 	}
 
@@ -405,7 +407,7 @@ public class MaskTextFilterTest extends ApplicationTest
 	{
 		clickOn("#formatted");
 
-		interact(() -> ((TextField) lookup("#formatted").query()).selectRange(14, 14));
+		interact(() -> textField.selectRange(14, 14));
 
 		verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 14);
 		type(KeyCode.NUMPAD0);
@@ -415,16 +417,61 @@ public class MaskTextFilterTest extends ApplicationTest
 		type(KeyCode.ADD);
 		verifyThat("#formatted", hasText("\\0,0.a$a!aAU ^P/"));
 		verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 16);
-		interact(() -> ((TextField) lookup("#formatted").query()).selectRange(14, 14));
+		interact(() -> textField.selectRange(14, 14));
 
 		type(KeyCode.SUBTRACT);
 		verifyThat("#formatted", hasText("\\0,0.a$a!aAU ^M/"));
 		verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 16);
-		interact(() -> ((TextField) lookup("#formatted").query()).selectRange(14, 14));
+		interact(() -> textField.selectRange(14, 14));
 	}
 
 	@Test
 	public void pasteTest() throws Exception
+	{
+		final String validAllText = "\\4,B.f$1!fTU*^M/";
+
+		final String invalidText = "#.b";
+		final String validText = "C.b";
+
+		final String newValidText = validAllText.substring(0, 3) + validText + DEFAULT_TEXT.substring(6, 10)
+				+ validAllText.substring(10, 16);
+
+		clickOn("#formatted");
+
+		textField.setText(validAllText);
+		verifyThat("#formatted", hasText(validAllText));
+
+		{
+			interact(() -> textField.selectRange(3, 10));
+
+			interact(() -> {
+				final ClipboardContent content = new ClipboardContent();
+				content.putString(invalidText);
+				Clipboard.getSystemClipboard().setContent(content);
+			});
+
+			push(KeyCode.CONTROL, KeyCode.V);
+
+			verifyThat("#formatted", hasText(validAllText));
+		}
+
+		{
+			interact(() -> textField.selectRange(3, 10));
+
+			interact(() -> {
+				final ClipboardContent content = new ClipboardContent();
+				content.putString(validText);
+				Clipboard.getSystemClipboard().setContent(content);
+			});
+
+			push(KeyCode.CONTROL, KeyCode.V);
+
+			verifyThat("#formatted", hasText(newValidText));
+		}
+	}
+
+	@Test
+	public void pasteAllTest() throws Exception
 	{
 		final String invalidText = "\\4,#.f$1!fTU*^M/";
 		final String validText = "\\4,B.f$1!fTU*^M/";
@@ -432,7 +479,7 @@ public class MaskTextFilterTest extends ApplicationTest
 		clickOn("#formatted");
 
 		{
-			interact(() -> ((TextField) lookup("#formatted").query()).selectRange(0, 16));
+			interact(() -> textField.selectRange(0, 16));
 
 			interact(() -> {
 				final ClipboardContent content = new ClipboardContent();
@@ -446,7 +493,7 @@ public class MaskTextFilterTest extends ApplicationTest
 		}
 
 		{
-			interact(() -> ((TextField) lookup("#formatted").query()).selectRange(0, 16));
+			interact(() -> textField.selectRange(0, 16));
 
 			interact(() -> {
 				final ClipboardContent content = new ClipboardContent();
@@ -458,5 +505,70 @@ public class MaskTextFilterTest extends ApplicationTest
 
 			verifyThat("#formatted", hasText(validText));
 		}
+	}
+
+	@Test
+	public void deleteTest() throws Exception
+	{
+		final String text = "\\4,B.f$1!fTU*^M/";
+
+		clickOn("#formatted");
+
+		interact(() -> textField.setText(text));
+		verifyThat("#formatted", hasText(text));
+
+		interact(() -> textField.selectRange(16, 16));
+
+		type(KeyCode.BACK_SPACE);
+		verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 14);
+		String newText = text.substring(0, 14) + DEFAULT_TEXT.substring(14);
+		verifyThat("#formatted", hasText(newText));
+
+		type(KeyCode.BACK_SPACE);
+		verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 12);
+		newText = text.substring(0, 12) + DEFAULT_TEXT.substring(12);
+		verifyThat("#formatted", hasText(newText));
+
+		type(KeyCode.BACK_SPACE);
+		verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 10);
+		newText = text.substring(0, 10) + DEFAULT_TEXT.substring(10);
+		verifyThat("#formatted", hasText(newText));
+
+		type(KeyCode.BACK_SPACE);
+		verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 9);
+		newText = text.substring(0, 9) + DEFAULT_TEXT.substring(9);
+		verifyThat("#formatted", hasText(newText));
+
+		type(KeyCode.BACK_SPACE);
+		verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 7);
+		newText = text.substring(0, 7) + DEFAULT_TEXT.substring(7);
+		verifyThat("#formatted", hasText(newText));
+
+		type(KeyCode.BACK_SPACE);
+		verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 5);
+		newText = text.substring(0, 5) + DEFAULT_TEXT.substring(5);
+		verifyThat("#formatted", hasText(newText));
+
+		type(KeyCode.BACK_SPACE);
+		verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 3);
+		newText = text.substring(0, 3) + DEFAULT_TEXT.substring(3);
+		verifyThat("#formatted", hasText(newText));
+
+		type(KeyCode.BACK_SPACE);
+		verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 1);
+		verifyThat("#formatted", hasText(DEFAULT_TEXT));
+	}
+
+	@Test
+	public void setTextTest() throws Exception
+	{
+		final String invalidText = "\\4.B.f$1!fTU*^M/";
+		final String validText = "\\4,B.f$1!fTU*^M/";
+
+		interact(() -> textField.setText(validText));
+		verifyThat("#formatted", hasText(validText));
+
+		interact(() -> textField.setText(invalidText));
+		verifyThat("#formatted", hasText(validText));
 	}
 }

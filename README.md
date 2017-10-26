@@ -1,6 +1,7 @@
 # infxnity
 JavaFX "to infinity and beyond"
 
+[![GitHub license](https://img.shields.io/github/license/ben12/infxnity.svg)](https://github.com/ben12/infxnity/blob/master/LICENSE)
 [![Quality Gate](https://sonarcloud.io/api/badges/gate?key=com.ben12:infxnity&metric=coverage)](https://sonarcloud.io/dashboard?id=com.ben12%3Ainfxnity)
 
 ## Features

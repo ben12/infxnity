@@ -177,13 +177,13 @@ public class MaskTextFilter implements UnaryOperator&lt;Change&gt;
 		{
 <span class="fc" id="L178">			correctNewText = correctReplacedText(c);</span>
 		}
-<span class="pc bpc" id="L180" title="1 of 2 branches missed.">		else if (c.isAdded())</span>
+<span class="fc bfc" id="L180" title="All 2 branches covered.">		else if (c.isAdded())</span>
 		{
 <span class="fc" id="L182">			correctNewText = correctAddedText(c);</span>
 		}
-<span class="nc bnc" id="L184" title="All 2 branches missed.">		else if (c.isDeleted())</span>
+<span class="pc bpc" id="L184" title="1 of 2 branches missed.">		else if (c.isDeleted())</span>
 		{
-<span class="nc" id="L186">			correctNewText = correctDeletedText(c);</span>
+<span class="fc" id="L186">			correctNewText = correctDeletedText(c);</span>
 		}
 
 <span class="fc bfc" id="L189" title="All 2 branches covered.">		if (correctNewText.isPresent())</span>
@@ -216,9 +216,9 @@ public class MaskTextFilter implements UnaryOperator&lt;Change&gt;
 			}
 		}
 
-<span class="pc bpc" id="L219" title="3 of 4 branches missed.">		for (int i = start + text.length(); i &lt; end &amp;&amp; i &lt; mask.length; i++)</span>
+<span class="pc bpc" id="L219" title="1 of 4 branches missed.">		for (int i = start + text.length(); i &lt; end &amp;&amp; i &lt; mask.length; i++)</span>
 		{
-<span class="nc" id="L221">			newText.append(mask[i].getDefault());</span>
+<span class="fc" id="L221">			newText.append(mask[i].getDefault());</span>
 		}
 
 <span class="fc" id="L224">		return Optional.of(newText.toString());</span>
@@ -249,25 +249,25 @@ public class MaskTextFilter implements UnaryOperator&lt;Change&gt;
 
 	private Optional&lt;String&gt; correctDeletedText(final Change c)
 	{
-<span class="nc" id="L252">		int start = c.getRangeStart();</span>
-<span class="nc" id="L253">		final int end = c.getRangeEnd();</span>
+<span class="fc" id="L252">		int start = c.getRangeStart();</span>
+<span class="fc" id="L253">		final int end = c.getRangeEnd();</span>
 
-<span class="nc" id="L255">		final StringBuilder newText = new StringBuilder(end - start);</span>
+<span class="fc" id="L255">		final StringBuilder newText = new StringBuilder(end - start);</span>
 
-<span class="nc bnc" id="L257" title="All 2 branches missed.">		for (int i = start; i &lt; end; i++)</span>
+<span class="fc bfc" id="L257" title="All 2 branches covered.">		for (int i = start; i &lt; end; i++)</span>
 		{
-<span class="nc" id="L259">			newText.append(mask[i].getDefault());</span>
+<span class="fc" id="L259">			newText.append(mask[i].getDefault());</span>
 		}
 
 		// For backspace case
-<span class="nc bnc" id="L263" title="All 4 branches missed.">		for (int i = start; i &gt; 0 &amp;&amp; !mask[i].isNavigable(); i--, start--)</span>
+<span class="pc bpc" id="L263" title="1 of 4 branches missed.">		for (int i = start; i &gt; 0 &amp;&amp; !mask[i].isNavigable(); i--, start--)</span>
 		{
-<span class="nc" id="L265">			newText.insert(0, mask[i - 1].getDefault());</span>
+<span class="fc" id="L265">			newText.insert(0, mask[i - 1].getDefault());</span>
 		}
 
-<span class="nc" id="L268">		c.setRange(start, end);</span>
+<span class="fc" id="L268">		c.setRange(start, end);</span>
 
-<span class="nc" id="L270">		return Optional.of(newText.toString());</span>
+<span class="fc" id="L270">		return Optional.of(newText.toString());</span>
 	}
 
 	private void adjustCaretPosition(final Change c)
@@ -277,13 +277,13 @@ public class MaskTextFilter implements UnaryOperator&lt;Change&gt;
 <span class="fc bfc" id="L277" title="All 2 branches covered.">		if (oldPosition != position)</span>
 		{
 <span class="fc bfc" id="L279" title="All 2 branches covered.">			final int sign = (position &gt; oldPosition ? 1 : -1);</span>
-<span class="pc bpc" id="L280" title="1 of 6 branches missed.">			while (position &gt; 0 &amp;&amp; position &lt; mask.length &amp;&amp; !mask[position].isNavigable())</span>
+<span class="fc bfc" id="L280" title="All 6 branches covered.">			while (position &gt; 0 &amp;&amp; position &lt; mask.length &amp;&amp; !mask[position].isNavigable())</span>
 			{
 <span class="fc" id="L282">				position += sign;</span>
 			}
-<span class="pc bpc" id="L284" title="1 of 4 branches missed.">			while (position &lt; mask.length &amp;&amp; !mask[position].isNavigable())</span>
+<span class="fc bfc" id="L284" title="All 4 branches covered.">			while (position &lt; mask.length &amp;&amp; !mask[position].isNavigable())</span>
 			{
-<span class="nc" id="L286">				position++;</span>
+<span class="fc" id="L286">				position++;</span>
 			}
 		}
 
