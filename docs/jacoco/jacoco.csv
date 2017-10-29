@@ -4,3 +4,4 @@ infxnity,com.ben12.infxnity.control.text,MaskTextFilter,23,426,8,50,4,85,9,32,1,
 infxnity,com.ben12.infxnity.control.text,MaskBuilder,40,283,4,44,8,36,12,50,8,30
 infxnity,com.ben12.infxnity.control.text,MaskBuilder.DefaultMaskCharacter,0,37,0,0,0,11,0,6,0,6
 infxnity,com.ben12.infxnity.control.text,MaskTextFilter.new ChangeListener() {...},0,49,3,9,0,7,3,5,0,2
+infxnity,com.ben12.infxnity.collections,ObservableListAggregation,0,234,0,22,0,57,0,22,0,11

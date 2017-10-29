@@ -3,12 +3,13 @@ JavaFX "to infinity and beyond"
 
 [![GitHub license](https://img.shields.io/github/license/ben12/infxnity.svg)](https://github.com/ben12/infxnity/blob/master/LICENSE)
 [![Quality Gate](https://sonarcloud.io/api/badges/gate?key=com.ben12:infxnity&metric=coverage)](https://sonarcloud.io/dashboard?id=com.ben12%3Ainfxnity)
+[![GitHub version](https://badge.fury.io/gh/ben12%2Finfxnity.svg)](https://github.com/ben12/infxnity/releases)
 
 ## Features
 
-### MaskTextFilter
+### [MaskTextFilter](http://infxnity.ben12.eu/apidocs/com/ben12/infxnity/control/text/MaskTextFilter.html)
 
-Example to create a `TextField` allowing only french phone numbers: 
+Example to create a [`TextField`](https://docs.oracle.com/javase/8/javafx/api/javafx/scene/control/TextField.html) allowing only french phone numbers: 
 
 ```java
 final TextField textField = new TextField();
@@ -39,3 +40,33 @@ Navigate to the right will do that:
 "+33 6 00 00 00 |00"  
 "+33 6 00 00 00 0|0"  
 "+33 6 00 00 00 00|"
+
+### [ObservableListAggregation](http://infxnity.ben12.eu/apidocs/com/ben12/infxnity/collections/ObservableListAggregation.html)
+
+An [`ObservableList`](https://docs.oracle.com/javase/8/javafx/api/javafx/collections/ObservableList.html)(s) aggregation.  
+All events of aggregated [`ObservableList`](https://docs.oracle.com/javase/8/javafx/api/javafx/collections/ObservableList.html)(s) are forwarded.  
+The list of aggregated [`ObservableList`](https://docs.oracle.com/javase/8/javafx/api/javafx/collections/ObservableList.html)(s) can be modified to add, remove or replace one or more of the aggregated [`ObservableList`](https://docs.oracle.com/javase/8/javafx/api/javafx/collections/ObservableList.html)(s). An appropriate event will be fired.  
+An instance of [`ObservableListAggregation`](http://infxnity.ben12.eu/apidocs/com/ben12/infxnity/collections/ObservableListAggregation.html) is a read only list. Any attempt to modify the list will throw an [`UnsupportedOperationException`](https://docs.oracle.com/javase/8/docs/api/java/lang/UnsupportedOperationException.html).  
+
+Example:
+
+```java
+final ObservableList<Integer> list1 = FXCollections.observableArrayList(0, 1, 2);
+final ObservableList<Integer> list2 = FXCollections.observableArrayList(3, 4);
+final ObservableList<Integer> list3 = FXCollections.observableArrayList(5, 6);
+
+final ObservableListAggregation<Integer> aggregation = new ObservableListAggregation<>(list1, list2);
+System.out.println(aggregation); // [0, 1, 2, 3, 4]
+
+aggregation.getLists().add(list3);
+System.out.println(aggregation); // [0, 1, 2, 3, 4, 5, 6]
+
+list1.add(0, -1);
+System.out.println(aggregation); // [-1, 0, 1, 2, 3, 4, 5, 6]
+
+list3.remove(Integer.valueOf(6));
+System.out.println(aggregation); // [-1, 0, 1, 2, 3, 4, 5]
+
+aggregation.getLists().remove(list1);
+System.out.println(aggregation); // [3, 4, 5]
+```

@@ -59,273 +59,273 @@ import javafx.scene.control.TextInputControl;
  */
 public class MaskTextFilter implements UnaryOperator&lt;Change&gt;
 {
-	private final MaskCharacter[]	mask;
+    private final MaskCharacter[] mask;
 
-<span class="pc" id="L64">	private Control					settingDefaultOn	= null;</span>
+<span class="pc" id="L64">    private Control               settingDefaultOn = null;</span>
 
-	/**
-	 * @param pMask
-	 *            the mask to use
-	 */
-	public MaskTextFilter(@NamedArg(&quot;mask&quot;) final MaskCharacter... pMask)
-<span class="nc" id="L71">	{</span>
-<span class="nc" id="L72">		mask = Arrays.copyOf(pMask, pMask.length);</span>
-<span class="nc" id="L73">	}</span>
+    /**
+     * @param pMask
+     *            the mask to use
+     */
+    public MaskTextFilter(@NamedArg(&quot;mask&quot;) final MaskCharacter... pMask)
+<span class="nc" id="L71">    {</span>
+<span class="nc" id="L72">        mask = Arrays.copyOf(pMask, pMask.length);</span>
+<span class="nc" id="L73">    }</span>
 
-	/**
-	 * @param input
-	 *            {@link TextInputControl} where the filter will be applied
-	 * @param setDefaultOnFocus
-	 *            true to set the default value when it gain the focus, otherwise the default value is immediately applied
-	 * @param pMask
-	 *            the mask to use
-	 */
-	public MaskTextFilter(final TextInputControl input, final boolean setDefaultOnFocus, final MaskCharacter... pMask)
-<span class="fc" id="L84">	{</span>
-<span class="fc" id="L85">		mask = Arrays.copyOf(pMask, pMask.length);</span>
+    /**
+     * @param input
+     *            {@link TextInputControl} where the filter will be applied
+     * @param setDefaultOnFocus
+     *            true to set the default value when it gain the focus, otherwise the default value is immediately applied
+     * @param pMask
+     *            the mask to use
+     */
+    public MaskTextFilter(final TextInputControl input, final boolean setDefaultOnFocus, final MaskCharacter... pMask)
+<span class="fc" id="L84">    {</span>
+<span class="fc" id="L85">        mask = Arrays.copyOf(pMask, pMask.length);</span>
 
-<span class="fc" id="L87">		install(input, setDefaultOnFocus);</span>
-<span class="fc" id="L88">	}</span>
+<span class="fc" id="L87">        install(input, setDefaultOnFocus);</span>
+<span class="fc" id="L88">    }</span>
 
-	/**
-	 * @param input
-	 *            {@link TextInputControl} where set the default value
-	 * @param setDefaultOnFocus
-	 *            true to set the default value when it gain the focus, otherwise the default value is immediately applied
-	 */
-	public void install(final TextInputControl input, final boolean setDefaultOnFocus)
-	{
-<span class="pc bpc" id="L98" title="1 of 2 branches missed.">		if (input != null)</span>
-		{
-<span class="pc bpc" id="L100" title="1 of 2 branches missed.">			if (!setDefaultOnFocus)</span>
-			{
-<span class="nc" id="L102">				applyDefault(input);</span>
-			}
-			else
-			{
-<span class="fc" id="L106">				final ChangeListener&lt;Boolean&gt; focusListener = new ChangeListener&lt;Boolean&gt;()</span>
-<span class="fc" id="L107">				{</span>
-					@Override
-					public void changed(final ObservableValue&lt;? extends Boolean&gt; observable, final Boolean oldValue,
-							final Boolean newValue)
-					{
-<span class="pc bpc" id="L112" title="2 of 6 branches missed.">						if ((observable == input.focusedProperty() &amp;&amp; newValue &amp;&amp; !input.isPressed())</span>
-<span class="pc bpc" id="L113" title="1 of 6 branches missed.">								|| (observable == input.pressedProperty() &amp;&amp; !newValue &amp;&amp; input.isFocused()))</span>
-						{
-<span class="fc" id="L115">							applyDefault(input);</span>
-<span class="fc" id="L116">							input.focusedProperty().removeListener(this);</span>
-<span class="fc" id="L117">							input.pressedProperty().removeListener(this);</span>
-						}
-<span class="fc" id="L119">					}</span>
-				};
+    /**
+     * @param input
+     *            {@link TextInputControl} where set the default value
+     * @param setDefaultOnFocus
+     *            true to set the default value when it gain the focus, otherwise the default value is immediately applied
+     */
+    public void install(final TextInputControl input, final boolean setDefaultOnFocus)
+    {
+<span class="pc bpc" id="L98" title="1 of 2 branches missed.">        if (input != null)</span>
+        {
+<span class="pc bpc" id="L100" title="1 of 2 branches missed.">            if (!setDefaultOnFocus)</span>
+            {
+<span class="nc" id="L102">                applyDefault(input);</span>
+            }
+            else
+            {
+<span class="fc" id="L106">                final ChangeListener&lt;Boolean&gt; focusListener = new ChangeListener&lt;Boolean&gt;()</span>
+<span class="fc" id="L107">                {</span>
+                    @Override
+                    public void changed(final ObservableValue&lt;? extends Boolean&gt; observable, final Boolean oldValue,
+                            final Boolean newValue)
+                    {
+<span class="pc bpc" id="L112" title="2 of 6 branches missed.">                        if ((observable == input.focusedProperty() &amp;&amp; newValue &amp;&amp; !input.isPressed())</span>
+<span class="pc bpc" id="L113" title="1 of 6 branches missed.">                                || (observable == input.pressedProperty() &amp;&amp; !newValue &amp;&amp; input.isFocused()))</span>
+                        {
+<span class="fc" id="L115">                            applyDefault(input);</span>
+<span class="fc" id="L116">                            input.focusedProperty().removeListener(this);</span>
+<span class="fc" id="L117">                            input.pressedProperty().removeListener(this);</span>
+                        }
+<span class="fc" id="L119">                    }</span>
+                };
 
-<span class="fc" id="L122">				input.focusedProperty().addListener(focusListener);</span>
-<span class="fc" id="L123">				input.pressedProperty().addListener(focusListener);</span>
-			}
-		}
-<span class="fc" id="L126">	}</span>
+<span class="fc" id="L122">                input.focusedProperty().addListener(focusListener);</span>
+<span class="fc" id="L123">                input.pressedProperty().addListener(focusListener);</span>
+            }
+        }
+<span class="fc" id="L126">    }</span>
 
-	/**
-	 * @param input
-	 *            {@link TextInputControl} where set the default value
-	 */
-	public void applyDefault(final TextInputControl input)
-	{
-		try
-		{
-<span class="fc" id="L136">			settingDefaultOn = input;</span>
-<span class="fc" id="L137">			final String defaultText = Stream.of(mask)</span>
-<span class="fc" id="L138">					.map(m -&gt; Character.toString(m.getDefault()))</span>
-<span class="fc" id="L139">					.collect(Collectors.joining());</span>
-<span class="fc" id="L140">			input.setText(defaultText);</span>
+    /**
+     * @param input
+     *            {@link TextInputControl} where set the default value
+     */
+    public void applyDefault(final TextInputControl input)
+    {
+        try
+        {
+<span class="fc" id="L136">            settingDefaultOn = input;</span>
+<span class="fc" id="L137">            final String defaultText = Stream.of(mask) //</span>
+<span class="fc" id="L138">                                             .map(m -&gt; Character.toString(m.getDefault()))</span>
+<span class="fc" id="L139">                                             .collect(Collectors.joining());</span>
+<span class="fc" id="L140">            input.setText(defaultText);</span>
 
-<span class="fc" id="L142">			final int firstAllowedPosition = IntStream.range(0, mask.length)</span>
-<span class="fc" id="L143">					.filter(i -&gt; mask[i].isNavigable())</span>
-<span class="fc" id="L144">					.findFirst()</span>
-<span class="fc" id="L145">					.orElse(0);</span>
-<span class="fc" id="L146">			input.selectRange(firstAllowedPosition, firstAllowedPosition);</span>
-		}
-		finally
-		{
-<span class="pc" id="L150">			settingDefaultOn = null;</span>
-<span class="fc" id="L151">		}</span>
-<span class="fc" id="L152">	}</span>
+<span class="fc" id="L142">            final int firstAllowedPosition = IntStream.range(0, mask.length)</span>
+<span class="fc" id="L143">                                                      .filter(i -&gt; mask[i].isNavigable())</span>
+<span class="fc" id="L144">                                                      .findFirst()</span>
+<span class="fc" id="L145">                                                      .orElse(0);</span>
+<span class="fc" id="L146">            input.selectRange(firstAllowedPosition, firstAllowedPosition);</span>
+        }
+        finally
+        {
+<span class="pc" id="L150">            settingDefaultOn = null;</span>
+<span class="fc" id="L151">        }</span>
+<span class="fc" id="L152">    }</span>
 
-	@Override
-	public Change apply(final Change c)
-	{
-<span class="fc bfc" id="L157" title="All 2 branches covered.">		if (settingDefaultOn == c.getControl())</span>
-		{
-<span class="fc" id="L159">			return c;</span>
-		}
+    @Override
+    public Change apply(final Change c)
+    {
+<span class="fc bfc" id="L157" title="All 2 branches covered.">        if (settingDefaultOn == c.getControl())</span>
+        {
+<span class="fc" id="L159">            return c;</span>
+        }
 
-<span class="fc bfc" id="L162" title="All 4 branches covered.">		if (c.isContentChange() &amp;&amp; !correctContentChange(c))</span>
-		{
-<span class="fc" id="L164">			return null;</span>
-		}
+<span class="fc bfc" id="L162" title="All 4 branches covered.">        if (c.isContentChange() &amp;&amp; !correctContentChange(c))</span>
+        {
+<span class="fc" id="L164">            return null;</span>
+        }
 
-<span class="fc" id="L167">		adjustCaretPosition(c);</span>
+<span class="fc" id="L167">        adjustCaretPosition(c);</span>
 
-<span class="fc" id="L169">		return c;</span>
-	}
+<span class="fc" id="L169">        return c;</span>
+    }
 
-	private boolean correctContentChange(final Change c)
-	{
-<span class="fc" id="L174">		Optional&lt;String&gt; correctNewText = Optional.empty();</span>
+    private boolean correctContentChange(final Change c)
+    {
+<span class="fc" id="L174">        Optional&lt;String&gt; correctNewText = Optional.empty();</span>
 
-<span class="fc bfc" id="L176" title="All 2 branches covered.">		if (c.isReplaced())</span>
-		{
-<span class="fc" id="L178">			correctNewText = correctReplacedText(c);</span>
-		}
-<span class="fc bfc" id="L180" title="All 2 branches covered.">		else if (c.isAdded())</span>
-		{
-<span class="fc" id="L182">			correctNewText = correctAddedText(c);</span>
-		}
-<span class="pc bpc" id="L184" title="1 of 2 branches missed.">		else if (c.isDeleted())</span>
-		{
-<span class="fc" id="L186">			correctNewText = correctDeletedText(c);</span>
-		}
+<span class="fc bfc" id="L176" title="All 2 branches covered.">        if (c.isReplaced())</span>
+        {
+<span class="fc" id="L178">            correctNewText = correctReplacedText(c);</span>
+        }
+<span class="fc bfc" id="L180" title="All 2 branches covered.">        else if (c.isAdded())</span>
+        {
+<span class="fc" id="L182">            correctNewText = correctAddedText(c);</span>
+        }
+<span class="pc bpc" id="L184" title="1 of 2 branches missed.">        else if (c.isDeleted())</span>
+        {
+<span class="fc" id="L186">            correctNewText = correctDeletedText(c);</span>
+        }
 
-<span class="fc bfc" id="L189" title="All 2 branches covered.">		if (correctNewText.isPresent())</span>
-		{
-<span class="fc" id="L191">			final int start = c.getRangeStart();</span>
-<span class="fc" id="L192">			c.setRange(start, Math.min(start + correctNewText.get().length(), c.getControlText().length()));</span>
-<span class="fc" id="L193">			c.setText(correctNewText.get());</span>
-		}
+<span class="fc bfc" id="L189" title="All 2 branches covered.">        if (correctNewText.isPresent())</span>
+        {
+<span class="fc" id="L191">            final int start = c.getRangeStart();</span>
+<span class="fc" id="L192">            c.setRange(start, Math.min(start + correctNewText.get().length(), c.getControlText().length()));</span>
+<span class="fc" id="L193">            c.setText(correctNewText.get());</span>
+        }
 
-<span class="fc" id="L196">		return correctNewText.isPresent();</span>
-	}
+<span class="fc" id="L196">        return correctNewText.isPresent();</span>
+    }
 
-	private Optional&lt;String&gt; correctReplacedText(final Change c)
-	{
-<span class="fc" id="L201">		final int start = c.getRangeStart();</span>
-<span class="fc" id="L202">		final int end = c.getRangeEnd();</span>
-<span class="fc" id="L203">		final String text = c.getText();</span>
+    private Optional&lt;String&gt; correctReplacedText(final Change c)
+    {
+<span class="fc" id="L201">        final int start = c.getRangeStart();</span>
+<span class="fc" id="L202">        final int end = c.getRangeEnd();</span>
+<span class="fc" id="L203">        final String text = c.getText();</span>
 
-<span class="fc" id="L205">		final StringBuilder newText = new StringBuilder(end - start);</span>
-<span class="pc bpc" id="L206" title="2 of 6 branches missed.">		for (int i = start; i - start &lt; text.length() &amp;&amp; i &lt; end &amp;&amp; i &lt; mask.length; i++)</span>
-		{
-<span class="fc" id="L208">			final char ch = text.charAt(i - start);</span>
-<span class="fc bfc" id="L209" title="All 2 branches covered.">			if (mask[i].isAllowed(ch))</span>
-			{
-<span class="fc" id="L211">				newText.append(mask[i].tranform(ch));</span>
-			}
-			else
-			{
-<span class="fc" id="L215">				return Optional.empty();</span>
-			}
-		}
+<span class="fc" id="L205">        final StringBuilder newText = new StringBuilder(end - start);</span>
+<span class="pc bpc" id="L206" title="2 of 6 branches missed.">        for (int i = start; i - start &lt; text.length() &amp;&amp; i &lt; end &amp;&amp; i &lt; mask.length; i++)</span>
+        {
+<span class="fc" id="L208">            final char ch = text.charAt(i - start);</span>
+<span class="fc bfc" id="L209" title="All 2 branches covered.">            if (mask[i].isAllowed(ch))</span>
+            {
+<span class="fc" id="L211">                newText.append(mask[i].tranform(ch));</span>
+            }
+            else
+            {
+<span class="fc" id="L215">                return Optional.empty();</span>
+            }
+        }
 
-<span class="pc bpc" id="L219" title="1 of 4 branches missed.">		for (int i = start + text.length(); i &lt; end &amp;&amp; i &lt; mask.length; i++)</span>
-		{
-<span class="fc" id="L221">			newText.append(mask[i].getDefault());</span>
-		}
+<span class="pc bpc" id="L219" title="1 of 4 branches missed.">        for (int i = start + text.length(); i &lt; end &amp;&amp; i &lt; mask.length; i++)</span>
+        {
+<span class="fc" id="L221">            newText.append(mask[i].getDefault());</span>
+        }
 
-<span class="fc" id="L224">		return Optional.of(newText.toString());</span>
-	}
+<span class="fc" id="L224">        return Optional.of(newText.toString());</span>
+    }
 
-	private Optional&lt;String&gt; correctAddedText(final Change c)
-	{
-<span class="fc" id="L229">		final int start = c.getRangeStart();</span>
-<span class="fc" id="L230">		final String text = c.getText();</span>
+    private Optional&lt;String&gt; correctAddedText(final Change c)
+    {
+<span class="fc" id="L229">        final int start = c.getRangeStart();</span>
+<span class="fc" id="L230">        final String text = c.getText();</span>
 
-<span class="fc" id="L232">		final StringBuilder newText = new StringBuilder(text.length());</span>
+<span class="fc" id="L232">        final StringBuilder newText = new StringBuilder(text.length());</span>
 
-<span class="pc bpc" id="L234" title="1 of 4 branches missed.">		for (int i = start; i - start &lt; text.length() &amp;&amp; i &lt; mask.length; i++)</span>
-		{
-<span class="fc" id="L236">			final char ch = text.charAt(i - start);</span>
-<span class="fc bfc" id="L237" title="All 2 branches covered.">			if (mask[i].isAllowed(ch))</span>
-			{
-<span class="fc" id="L239">				newText.append(mask[i].tranform(ch));</span>
-			}
-			else
-			{
-<span class="fc" id="L243">				return Optional.empty();</span>
-			}
-		}
+<span class="pc bpc" id="L234" title="1 of 4 branches missed.">        for (int i = start; i - start &lt; text.length() &amp;&amp; i &lt; mask.length; i++)</span>
+        {
+<span class="fc" id="L236">            final char ch = text.charAt(i - start);</span>
+<span class="fc bfc" id="L237" title="All 2 branches covered.">            if (mask[i].isAllowed(ch))</span>
+            {
+<span class="fc" id="L239">                newText.append(mask[i].tranform(ch));</span>
+            }
+            else
+            {
+<span class="fc" id="L243">                return Optional.empty();</span>
+            }
+        }
 
-<span class="fc" id="L247">		return Optional.of(newText.toString());</span>
-	}
+<span class="fc" id="L247">        return Optional.of(newText.toString());</span>
+    }
 
-	private Optional&lt;String&gt; correctDeletedText(final Change c)
-	{
-<span class="fc" id="L252">		int start = c.getRangeStart();</span>
-<span class="fc" id="L253">		final int end = c.getRangeEnd();</span>
+    private Optional&lt;String&gt; correctDeletedText(final Change c)
+    {
+<span class="fc" id="L252">        int start = c.getRangeStart();</span>
+<span class="fc" id="L253">        final int end = c.getRangeEnd();</span>
 
-<span class="fc" id="L255">		final StringBuilder newText = new StringBuilder(end - start);</span>
+<span class="fc" id="L255">        final StringBuilder newText = new StringBuilder(end - start);</span>
 
-<span class="fc bfc" id="L257" title="All 2 branches covered.">		for (int i = start; i &lt; end; i++)</span>
-		{
-<span class="fc" id="L259">			newText.append(mask[i].getDefault());</span>
-		}
+<span class="fc bfc" id="L257" title="All 2 branches covered.">        for (int i = start; i &lt; end; i++)</span>
+        {
+<span class="fc" id="L259">            newText.append(mask[i].getDefault());</span>
+        }
 
-		// For backspace case
-<span class="pc bpc" id="L263" title="1 of 4 branches missed.">		for (int i = start; i &gt; 0 &amp;&amp; !mask[i].isNavigable(); i--, start--)</span>
-		{
-<span class="fc" id="L265">			newText.insert(0, mask[i - 1].getDefault());</span>
-		}
+        // For backspace case
+<span class="pc bpc" id="L263" title="1 of 4 branches missed.">        for (int i = start; i &gt; 0 &amp;&amp; !mask[i].isNavigable(); i--, start--)</span>
+        {
+<span class="fc" id="L265">            newText.insert(0, mask[i - 1].getDefault());</span>
+        }
 
-<span class="fc" id="L268">		c.setRange(start, end);</span>
+<span class="fc" id="L268">        c.setRange(start, end);</span>
 
-<span class="fc" id="L270">		return Optional.of(newText.toString());</span>
-	}
+<span class="fc" id="L270">        return Optional.of(newText.toString());</span>
+    }
 
-	private void adjustCaretPosition(final Change c)
-	{
-<span class="fc" id="L275">		final int oldPosition = c.getControlCaretPosition();</span>
-<span class="fc" id="L276">		int position = Math.min(c.getCaretPosition(), mask.length);</span>
-<span class="fc bfc" id="L277" title="All 2 branches covered.">		if (oldPosition != position)</span>
-		{
-<span class="fc bfc" id="L279" title="All 2 branches covered.">			final int sign = (position &gt; oldPosition ? 1 : -1);</span>
-<span class="fc bfc" id="L280" title="All 6 branches covered.">			while (position &gt; 0 &amp;&amp; position &lt; mask.length &amp;&amp; !mask[position].isNavigable())</span>
-			{
-<span class="fc" id="L282">				position += sign;</span>
-			}
-<span class="fc bfc" id="L284" title="All 4 branches covered.">			while (position &lt; mask.length &amp;&amp; !mask[position].isNavigable())</span>
-			{
-<span class="fc" id="L286">				position++;</span>
-			}
-		}
+    private void adjustCaretPosition(final Change c)
+    {
+<span class="fc" id="L275">        final int oldPosition = c.getControlCaretPosition();</span>
+<span class="fc" id="L276">        int position = Math.min(c.getCaretPosition(), mask.length);</span>
+<span class="fc bfc" id="L277" title="All 2 branches covered.">        if (oldPosition != position)</span>
+        {
+<span class="fc bfc" id="L279" title="All 2 branches covered.">            final int sign = (position &gt; oldPosition ? 1 : -1);</span>
+<span class="fc bfc" id="L280" title="All 6 branches covered.">            while (position &gt; 0 &amp;&amp; position &lt; mask.length &amp;&amp; !mask[position].isNavigable())</span>
+            {
+<span class="fc" id="L282">                position += sign;</span>
+            }
+<span class="fc bfc" id="L284" title="All 4 branches covered.">            while (position &lt; mask.length &amp;&amp; !mask[position].isNavigable())</span>
+            {
+<span class="fc" id="L286">                position++;</span>
+            }
+        }
 
-<span class="fc" id="L290">		position = Math.min(position, c.getControlNewText().length());</span>
+<span class="fc" id="L290">        position = Math.min(position, c.getControlNewText().length());</span>
 
-<span class="fc bfc" id="L292" title="All 2 branches covered.">		if (c.getAnchor() == c.getCaretPosition())</span>
-		{
-<span class="fc" id="L294">			c.setAnchor(position);</span>
-		}
-<span class="fc" id="L296">		c.setCaretPosition(position);</span>
-<span class="fc" id="L297">	}</span>
+<span class="fc bfc" id="L292" title="All 2 branches covered.">        if (c.getAnchor() == c.getCaretPosition())</span>
+        {
+<span class="fc" id="L294">            c.setAnchor(position);</span>
+        }
+<span class="fc" id="L296">        c.setCaretPosition(position);</span>
+<span class="fc" id="L297">    }</span>
 
-	/**
-	 * Mask character interface.
-	 * 
-	 * @author Benoît Moreau (ben.12)
-	 */
-	public interface MaskCharacter
-	{
-		/**
-		 * @param c
-		 *            an input character
-		 * @return true if the character is allowed, false otherwise
-		 */
-		boolean isAllowed(char c);
+    /**
+     * Mask character interface.
+     * 
+     * @author Benoît Moreau (ben.12)
+     */
+    public interface MaskCharacter
+    {
+        /**
+         * @param c
+         *            an input character
+         * @return true if the character is allowed, false otherwise
+         */
+        boolean isAllowed(char c);
 
-		/**
-		 * @param c
-		 *            an input character
-		 * @return the transformed character to set
-		 */
-		char tranform(char c);
+        /**
+         * @param c
+         *            an input character
+         * @return the transformed character to set
+         */
+        char tranform(char c);
 
-		/**
-		 * @return the default character
-		 */
-		char getDefault();
+        /**
+         * @return the default character
+         */
+        char getDefault();
 
-		/**
-		 * @return true if caret can be placed before the character, false otherwise
-		 */
-		boolean isNavigable();
-	}
+        /**
+         * @return true if caret can be placed before the character, false otherwise
+         */
+        boolean isNavigable();
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

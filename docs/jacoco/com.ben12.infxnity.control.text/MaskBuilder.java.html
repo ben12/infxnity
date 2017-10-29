@@ -21,544 +21,544 @@ import javafx.util.Builder;
  */
 <span class="fc" id="L22">public class MaskBuilder implements Builder&lt;MaskCharacter[]&gt;</span>
 {
-<span class="fc" id="L24">	private final List&lt;MaskCharacter&gt; mask = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L24">    private final List&lt;MaskCharacter&gt; mask = new ArrayList&lt;&gt;();</span>
 
-	public static MaskBuilder newBuilder()
-	{
-<span class="fc" id="L28">		return new MaskBuilder();</span>
-	}
+    public static MaskBuilder newBuilder()
+    {
+<span class="fc" id="L28">        return new MaskBuilder();</span>
+    }
 
-	/**
-	 * Appends an unmodifiable text.
-	 * 
-	 * @param value
-	 *            the literal string to append
-	 * @return this {@link MaskBuilder}
-	 */
-	public MaskBuilder appendLiteral(final String value)
-	{
-<span class="fc bfc" id="L40" title="All 2 branches covered.">		for (final char c : value.toCharArray())</span>
-		{
-<span class="fc" id="L42">			mask.add(new LiteralMaskCharacter(c));</span>
-		}
-<span class="fc" id="L44">		return this;</span>
-	}
+    /**
+     * Appends an unmodifiable text.
+     * 
+     * @param value
+     *            the literal string to append
+     * @return this {@link MaskBuilder}
+     */
+    public MaskBuilder appendLiteral(final String value)
+    {
+<span class="fc bfc" id="L40" title="All 2 branches covered.">        for (final char c : value.toCharArray())</span>
+        {
+<span class="fc" id="L42">            mask.add(new LiteralMaskCharacter(c));</span>
+        }
+<span class="fc" id="L44">        return this;</span>
+    }
 
-	/**
-	 * Appends a character where only digit are allowed.
-	 * Default value is '0'.
-	 * 
-	 * @return this {@link MaskBuilder}
-	 */
-	public MaskBuilder appendDigit()
-	{
-<span class="fc" id="L55">		return appendDigit(1);</span>
-	}
+    /**
+     * Appends a character where only digit are allowed.
+     * Default value is '0'.
+     * 
+     * @return this {@link MaskBuilder}
+     */
+    public MaskBuilder appendDigit()
+    {
+<span class="fc" id="L55">        return appendDigit(1);</span>
+    }
 
-	/**
-	 * Appends a character where only digit are allowed.
-	 * 
-	 * @param defaultValue
-	 *            the default value
-	 * @return this {@link MaskBuilder}
-	 */
-	public MaskBuilder appendDigit(final char defaultValue)
-	{
-<span class="nc" id="L67">		return appendDigit(1, defaultValue);</span>
-	}
+    /**
+     * Appends a character where only digit are allowed.
+     * 
+     * @param defaultValue
+     *            the default value
+     * @return this {@link MaskBuilder}
+     */
+    public MaskBuilder appendDigit(final char defaultValue)
+    {
+<span class="nc" id="L67">        return appendDigit(1, defaultValue);</span>
+    }
 
-	/**
-	 * Appends some characters where only digit are allowed.
-	 * Default value is '0'.
-	 * 
-	 * @param repeat
-	 *            number of character to append
-	 * @return this {@link MaskBuilder}
-	 */
-	public MaskBuilder appendDigit(final int repeat)
-	{
-<span class="fc" id="L80">		return appendDigit(repeat, '0');</span>
-	}
+    /**
+     * Appends some characters where only digit are allowed.
+     * Default value is '0'.
+     * 
+     * @param repeat
+     *            number of character to append
+     * @return this {@link MaskBuilder}
+     */
+    public MaskBuilder appendDigit(final int repeat)
+    {
+<span class="fc" id="L80">        return appendDigit(repeat, '0');</span>
+    }
 
-	/**
-	 * Appends some characters where only digit are allowed.
-	 * 
-	 * @param repeat
-	 *            number of character to append
-	 * @param defaultValue
-	 *            the default value for each character
-	 * @return this {@link MaskBuilder}
-	 */
-	public MaskBuilder appendDigit(final int repeat, final char defaultValue)
-	{
-<span class="fc" id="L94">		return append(repeat, Character::isDigit, defaultValue);</span>
-	}
+    /**
+     * Appends some characters where only digit are allowed.
+     * 
+     * @param repeat
+     *            number of character to append
+     * @param defaultValue
+     *            the default value for each character
+     * @return this {@link MaskBuilder}
+     */
+    public MaskBuilder appendDigit(final int repeat, final char defaultValue)
+    {
+<span class="fc" id="L94">        return append(repeat, Character::isDigit, defaultValue);</span>
+    }
 
-	/**
-	 * Appends a character where only upper case letter are allowed.
-	 * Typing lower case character will set an upper case character.
-	 * Default value is 'A'.
-	 * 
-	 * @return this {@link MaskBuilder}
-	 */
-	public MaskBuilder appendUpperCase()
-	{
-<span class="fc" id="L106">		return appendUpperCase(1);</span>
-	}
+    /**
+     * Appends a character where only upper case letter are allowed.
+     * Typing lower case character will set an upper case character.
+     * Default value is 'A'.
+     * 
+     * @return this {@link MaskBuilder}
+     */
+    public MaskBuilder appendUpperCase()
+    {
+<span class="fc" id="L106">        return appendUpperCase(1);</span>
+    }
 
-	/**
-	 * Appends a character where only upper case letter are allowed.
-	 * Typing lower case character will set an upper case character.
-	 * 
-	 * @param defaultValue
-	 *            the default value for each character
-	 * @return this {@link MaskBuilder}
-	 */
-	public MaskBuilder appendUpperCase(final char defaultValue)
-	{
-<span class="nc" id="L119">		return appendUpperCase(1, defaultValue);</span>
-	}
+    /**
+     * Appends a character where only upper case letter are allowed.
+     * Typing lower case character will set an upper case character.
+     * 
+     * @param defaultValue
+     *            the default value for each character
+     * @return this {@link MaskBuilder}
+     */
+    public MaskBuilder appendUpperCase(final char defaultValue)
+    {
+<span class="nc" id="L119">        return appendUpperCase(1, defaultValue);</span>
+    }
 
-	/**
-	 * Appends some characters where only upper case letter are allowed.
-	 * Typing lower case character will set an upper case character.
-	 * Default value is 'A'.
-	 * 
-	 * @param repeat
-	 *            number of character to append
-	 * @return this {@link MaskBuilder}
-	 */
-	public MaskBuilder appendUpperCase(final int repeat)
-	{
-<span class="fc" id="L133">		return appendUpperCase(repeat, 'A');</span>
-	}
+    /**
+     * Appends some characters where only upper case letter are allowed.
+     * Typing lower case character will set an upper case character.
+     * Default value is 'A'.
+     * 
+     * @param repeat
+     *            number of character to append
+     * @return this {@link MaskBuilder}
+     */
+    public MaskBuilder appendUpperCase(final int repeat)
+    {
+<span class="fc" id="L133">        return appendUpperCase(repeat, 'A');</span>
+    }
 
-	/**
-	 * Appends some characters where only upper case letter are allowed.
-	 * Typing lower case character will set an upper case character.
-	 * 
-	 * @param repeat
-	 *            number of character to append
-	 * @param defaultValue
-	 *            the default value for each character
-	 * @return this {@link MaskBuilder}
-	 */
-	public MaskBuilder appendUpperCase(final int repeat, final char defaultValue)
-	{
-<span class="fc" id="L148">		return append(repeat, Character::isLetter, Character::toUpperCase, defaultValue);</span>
-	}
+    /**
+     * Appends some characters where only upper case letter are allowed.
+     * Typing lower case character will set an upper case character.
+     * 
+     * @param repeat
+     *            number of character to append
+     * @param defaultValue
+     *            the default value for each character
+     * @return this {@link MaskBuilder}
+     */
+    public MaskBuilder appendUpperCase(final int repeat, final char defaultValue)
+    {
+<span class="fc" id="L148">        return append(repeat, Character::isLetter, Character::toUpperCase, defaultValue);</span>
+    }
 
-	/**
-	 * Appends a character where only lower case letter are allowed.
-	 * Typing upper case character will set a lower case character.
-	 * Default value is 'a'.
-	 * 
-	 * @return this {@link MaskBuilder}
-	 */
-	public MaskBuilder appendLowerCase()
-	{
-<span class="fc" id="L160">		return appendLowerCase(1);</span>
-	}
+    /**
+     * Appends a character where only lower case letter are allowed.
+     * Typing upper case character will set a lower case character.
+     * Default value is 'a'.
+     * 
+     * @return this {@link MaskBuilder}
+     */
+    public MaskBuilder appendLowerCase()
+    {
+<span class="fc" id="L160">        return appendLowerCase(1);</span>
+    }
 
-	/**
-	 * Appends a character where only lower case letter are allowed.
-	 * Typing upper case character will set a lower case character.
-	 * 
-	 * @param defaultValue
-	 *            the default value for each character
-	 * @return this {@link MaskBuilder}
-	 */
-	public MaskBuilder appendLowerCase(final char defaultValue)
-	{
-<span class="nc" id="L173">		return appendLowerCase(1, defaultValue);</span>
-	}
+    /**
+     * Appends a character where only lower case letter are allowed.
+     * Typing upper case character will set a lower case character.
+     * 
+     * @param defaultValue
+     *            the default value for each character
+     * @return this {@link MaskBuilder}
+     */
+    public MaskBuilder appendLowerCase(final char defaultValue)
+    {
+<span class="nc" id="L173">        return appendLowerCase(1, defaultValue);</span>
+    }
 
-	/**
-	 * Appends some characters where only lower case letter are allowed.
-	 * Typing upper case character will set a lower case character.
-	 * Default value is 'a'.
-	 * 
-	 * @param repeat
-	 *            number of character to append
-	 * @return this {@link MaskBuilder}
-	 */
-	public MaskBuilder appendLowerCase(final int repeat)
-	{
-<span class="fc" id="L187">		return appendLowerCase(repeat, 'a');</span>
-	}
+    /**
+     * Appends some characters where only lower case letter are allowed.
+     * Typing upper case character will set a lower case character.
+     * Default value is 'a'.
+     * 
+     * @param repeat
+     *            number of character to append
+     * @return this {@link MaskBuilder}
+     */
+    public MaskBuilder appendLowerCase(final int repeat)
+    {
+<span class="fc" id="L187">        return appendLowerCase(repeat, 'a');</span>
+    }
 
-	/**
-	 * Appends some characters where only lower case letter are allowed.
-	 * Typing upper case character will set a lower case character.
-	 * 
-	 * @param repeat
-	 *            number of character to append
-	 * @param defaultValue
-	 *            the default value for each character
-	 * @return this {@link MaskBuilder}
-	 */
-	public MaskBuilder appendLowerCase(final int repeat, final char defaultValue)
-	{
-<span class="fc" id="L202">		return append(repeat, Character::isLetter, Character::toLowerCase, defaultValue);</span>
-	}
+    /**
+     * Appends some characters where only lower case letter are allowed.
+     * Typing upper case character will set a lower case character.
+     * 
+     * @param repeat
+     *            number of character to append
+     * @param defaultValue
+     *            the default value for each character
+     * @return this {@link MaskBuilder}
+     */
+    public MaskBuilder appendLowerCase(final int repeat, final char defaultValue)
+    {
+<span class="fc" id="L202">        return append(repeat, Character::isLetter, Character::toLowerCase, defaultValue);</span>
+    }
 
-	/**
-	 * Appends a character where only letter are allowed.
-	 * Default value is 'a'.
-	 * 
-	 * @return this {@link MaskBuilder}
-	 */
-	public MaskBuilder appendLetter()
-	{
-<span class="fc" id="L213">		return appendLetter(1);</span>
-	}
+    /**
+     * Appends a character where only letter are allowed.
+     * Default value is 'a'.
+     * 
+     * @return this {@link MaskBuilder}
+     */
+    public MaskBuilder appendLetter()
+    {
+<span class="fc" id="L213">        return appendLetter(1);</span>
+    }
 
-	/**
-	 * Appends a character where only letter are allowed.
-	 * 
-	 * @param defaultValue
-	 *            the default value for each character
-	 * @return this {@link MaskBuilder}
-	 */
-	public MaskBuilder appendLetter(final char defaultValue)
-	{
-<span class="nc" id="L225">		return appendLetter(1, defaultValue);</span>
-	}
+    /**
+     * Appends a character where only letter are allowed.
+     * 
+     * @param defaultValue
+     *            the default value for each character
+     * @return this {@link MaskBuilder}
+     */
+    public MaskBuilder appendLetter(final char defaultValue)
+    {
+<span class="nc" id="L225">        return appendLetter(1, defaultValue);</span>
+    }
 
-	/**
-	 * Appends some characters where only letter are allowed.
-	 * Default value is 'a'.
-	 * 
-	 * @param repeat
-	 *            number of character to append
-	 * @return this {@link MaskBuilder}
-	 */
-	public MaskBuilder appendLetter(final int repeat)
-	{
-<span class="fc" id="L238">		return appendLetter(repeat, 'a');</span>
-	}
+    /**
+     * Appends some characters where only letter are allowed.
+     * Default value is 'a'.
+     * 
+     * @param repeat
+     *            number of character to append
+     * @return this {@link MaskBuilder}
+     */
+    public MaskBuilder appendLetter(final int repeat)
+    {
+<span class="fc" id="L238">        return appendLetter(repeat, 'a');</span>
+    }
 
-	/**
-	 * Appends some characters where only letter are allowed.
-	 * 
-	 * @param repeat
-	 *            number of character to append
-	 * @param defaultValue
-	 *            the default value for each character
-	 * @return this {@link MaskBuilder}
-	 */
-	public MaskBuilder appendLetter(final int repeat, final char defaultValue)
-	{
-<span class="fc" id="L252">		return append(repeat, Character::isLetter, defaultValue);</span>
-	}
+    /**
+     * Appends some characters where only letter are allowed.
+     * 
+     * @param repeat
+     *            number of character to append
+     * @param defaultValue
+     *            the default value for each character
+     * @return this {@link MaskBuilder}
+     */
+    public MaskBuilder appendLetter(final int repeat, final char defaultValue)
+    {
+<span class="fc" id="L252">        return append(repeat, Character::isLetter, defaultValue);</span>
+    }
 
-	/**
-	 * Appends a character where only letter or digit are allowed.
-	 * Default value is 'a'.
-	 * 
-	 * @return this {@link MaskBuilder}
-	 */
-	public MaskBuilder appendLetterOrDigit()
-	{
-<span class="fc" id="L263">		return appendLetterOrDigit(1);</span>
-	}
+    /**
+     * Appends a character where only letter or digit are allowed.
+     * Default value is 'a'.
+     * 
+     * @return this {@link MaskBuilder}
+     */
+    public MaskBuilder appendLetterOrDigit()
+    {
+<span class="fc" id="L263">        return appendLetterOrDigit(1);</span>
+    }
 
-	/**
-	 * Appends a character where only letter or digit are allowed.
-	 * 
-	 * @param defaultValue
-	 *            the default value for each character
-	 * @return this {@link MaskBuilder}
-	 */
-	public MaskBuilder appendLetterOrDigit(final char defaultValue)
-	{
-<span class="nc" id="L275">		return appendLetterOrDigit(1, defaultValue);</span>
-	}
+    /**
+     * Appends a character where only letter or digit are allowed.
+     * 
+     * @param defaultValue
+     *            the default value for each character
+     * @return this {@link MaskBuilder}
+     */
+    public MaskBuilder appendLetterOrDigit(final char defaultValue)
+    {
+<span class="nc" id="L275">        return appendLetterOrDigit(1, defaultValue);</span>
+    }
 
-	/**
-	 * Appends some characters where only letter or digit are allowed.
-	 * Default value is 'a'.
-	 * 
-	 * @param repeat
-	 *            number of character to append
-	 * @return this {@link MaskBuilder}
-	 */
-	public MaskBuilder appendLetterOrDigit(final int repeat)
-	{
-<span class="fc" id="L288">		return appendLetterOrDigit(repeat, 'a');</span>
-	}
+    /**
+     * Appends some characters where only letter or digit are allowed.
+     * Default value is 'a'.
+     * 
+     * @param repeat
+     *            number of character to append
+     * @return this {@link MaskBuilder}
+     */
+    public MaskBuilder appendLetterOrDigit(final int repeat)
+    {
+<span class="fc" id="L288">        return appendLetterOrDigit(repeat, 'a');</span>
+    }
 
-	/**
-	 * Appends some characters where only letter or digit are allowed.
-	 * 
-	 * @param repeat
-	 *            number of character to append
-	 * @param defaultValue
-	 *            the default value for each character
-	 * @return this {@link MaskBuilder}
-	 */
-	public MaskBuilder appendLetterOrDigit(final int repeat, final char defaultValue)
-	{
-<span class="fc" id="L302">		return append(repeat, Character::isLetterOrDigit, defaultValue);</span>
-	}
+    /**
+     * Appends some characters where only letter or digit are allowed.
+     * 
+     * @param repeat
+     *            number of character to append
+     * @param defaultValue
+     *            the default value for each character
+     * @return this {@link MaskBuilder}
+     */
+    public MaskBuilder appendLetterOrDigit(final int repeat, final char defaultValue)
+    {
+<span class="fc" id="L302">        return append(repeat, Character::isLetterOrDigit, defaultValue);</span>
+    }
 
-	/**
-	 * Appends a character where only hexadecimal are allowed.
-	 * Typing lower case hexadecimal letter will set an upper case hexadecimal letter.
-	 * Default value is 'a'.
-	 * 
-	 * @return this {@link MaskBuilder}
-	 */
-	public MaskBuilder appendHexa()
-	{
-<span class="fc" id="L314">		return appendHexa(1);</span>
-	}
+    /**
+     * Appends a character where only hexadecimal are allowed.
+     * Typing lower case hexadecimal letter will set an upper case hexadecimal letter.
+     * Default value is 'a'.
+     * 
+     * @return this {@link MaskBuilder}
+     */
+    public MaskBuilder appendHexa()
+    {
+<span class="fc" id="L314">        return appendHexa(1);</span>
+    }
 
-	/**
-	 * Appends a character where only hexadecimal are allowed.
-	 * Typing lower case hexadecimal letter will set an upper case hexadecimal letter.
-	 * 
-	 * @param defaultValue
-	 *            the default value for each character
-	 * @return this {@link MaskBuilder}
-	 */
-	public MaskBuilder appendHexa(final char defaultValue)
-	{
-<span class="nc" id="L327">		return appendHexa(1, defaultValue);</span>
-	}
+    /**
+     * Appends a character where only hexadecimal are allowed.
+     * Typing lower case hexadecimal letter will set an upper case hexadecimal letter.
+     * 
+     * @param defaultValue
+     *            the default value for each character
+     * @return this {@link MaskBuilder}
+     */
+    public MaskBuilder appendHexa(final char defaultValue)
+    {
+<span class="nc" id="L327">        return appendHexa(1, defaultValue);</span>
+    }
 
-	/**
-	 * Appends some characters where only hexadecimal are allowed.
-	 * Typing lower case hexadecimal letter will set an upper case hexadecimal letter.
-	 * Default value is 'a'.
-	 * 
-	 * @param repeat
-	 *            number of character to append
-	 * @return this {@link MaskBuilder}
-	 */
-	public MaskBuilder appendHexa(final int repeat)
-	{
-<span class="fc" id="L341">		return appendHexa(repeat, '0');</span>
-	}
+    /**
+     * Appends some characters where only hexadecimal are allowed.
+     * Typing lower case hexadecimal letter will set an upper case hexadecimal letter.
+     * Default value is 'a'.
+     * 
+     * @param repeat
+     *            number of character to append
+     * @return this {@link MaskBuilder}
+     */
+    public MaskBuilder appendHexa(final int repeat)
+    {
+<span class="fc" id="L341">        return appendHexa(repeat, '0');</span>
+    }
 
-	/**
-	 * Appends some characters where only hexadecimal are allowed.
-	 * Typing lower case hexadecimal letter will set an upper case hexadecimal letter.
-	 * 
-	 * @param repeat
-	 *            number of character to append
-	 * @param defaultValue
-	 *            the default value for each character
-	 * @return this {@link MaskBuilder}
-	 */
-	public MaskBuilder appendHexa(final int repeat, final char defaultValue)
-	{
-<span class="fc" id="L356">		return append(repeat,</span>
-<span class="fc bfc" id="L357" title="All 16 branches covered.">				c -&gt; (c == '0' || c == '1' || c == '2' || c == '3' || c == '4' || c == '5' || c == '6' || c == '7'</span>
-<span class="pc bpc" id="L358" title="1 of 16 branches missed.">						|| c == '8' || c == '9' || c == 'a' || c == 'A' || c == 'b' || c == 'B' || c == 'c' || c == 'C'</span>
-<span class="pc bpc" id="L359" title="3 of 12 branches missed.">						|| c == 'd' || c == 'D' || c == 'e' || c == 'E' || c == 'f' || c == 'F'),</span>
-				Character::toUpperCase, defaultValue);
-	}
+    /**
+     * Appends some characters where only hexadecimal are allowed.
+     * Typing lower case hexadecimal letter will set an upper case hexadecimal letter.
+     * 
+     * @param repeat
+     *            number of character to append
+     * @param defaultValue
+     *            the default value for each character
+     * @return this {@link MaskBuilder}
+     */
+    public MaskBuilder appendHexa(final int repeat, final char defaultValue)
+    {
+<span class="fc" id="L356">        return append(repeat,</span>
+<span class="fc bfc" id="L357" title="All 16 branches covered.">                      c -&gt; (c == '0' || c == '1' || c == '2' || c == '3' || c == '4' || c == '5' || c == '6' || c == '7'</span>
+<span class="pc bpc" id="L358" title="1 of 14 branches missed.">                              || c == '8' || c == '9' || c == 'a' || c == 'A' || c == 'b' || c == 'B' || c == 'c'</span>
+<span class="pc bpc" id="L359" title="3 of 14 branches missed.">                              || c == 'C' || c == 'd' || c == 'D' || c == 'e' || c == 'E' || c == 'f' || c == 'F'),</span>
+                      Character::toUpperCase, defaultValue);
+    }
 
-	/**
-	 * Appends a character where any character are allowed.
-	 * Default value is ' '.
-	 * 
-	 * @return this {@link MaskBuilder}
-	 */
-	public MaskBuilder appendAny()
-	{
-<span class="fc" id="L371">		return appendAny(1);</span>
-	}
+    /**
+     * Appends a character where any character are allowed.
+     * Default value is ' '.
+     * 
+     * @return this {@link MaskBuilder}
+     */
+    public MaskBuilder appendAny()
+    {
+<span class="fc" id="L371">        return appendAny(1);</span>
+    }
 
-	/**
-	 * Appends a character where any character are allowed.
-	 * 
-	 * @param defaultValue
-	 *            the default value for each character
-	 * @return this {@link MaskBuilder}
-	 */
-	public MaskBuilder appendAny(final char defaultValue)
-	{
-<span class="nc" id="L383">		return appendAny(1, defaultValue);</span>
-	}
+    /**
+     * Appends a character where any character are allowed.
+     * 
+     * @param defaultValue
+     *            the default value for each character
+     * @return this {@link MaskBuilder}
+     */
+    public MaskBuilder appendAny(final char defaultValue)
+    {
+<span class="nc" id="L383">        return appendAny(1, defaultValue);</span>
+    }
 
-	/**
-	 * Appends some characters where any character are allowed.
-	 * Default value is ' '.
-	 * 
-	 * @param repeat
-	 *            number of character to append
-	 * @return this {@link MaskBuilder}
-	 */
-	public MaskBuilder appendAny(final int repeat)
-	{
-<span class="fc" id="L396">		return appendAny(repeat, ' ');</span>
-	}
+    /**
+     * Appends some characters where any character are allowed.
+     * Default value is ' '.
+     * 
+     * @param repeat
+     *            number of character to append
+     * @return this {@link MaskBuilder}
+     */
+    public MaskBuilder appendAny(final int repeat)
+    {
+<span class="fc" id="L396">        return appendAny(repeat, ' ');</span>
+    }
 
-	/**
-	 * Appends some characters where any character are allowed.
-	 * 
-	 * @param repeat
-	 *            number of character to append
-	 * @param defaultValue
-	 *            the default value for each character
-	 * @return this {@link MaskBuilder}
-	 */
-	public MaskBuilder appendAny(final int repeat, final char defaultValue)
-	{
-<span class="fc" id="L410">		return append(repeat, c -&gt; true, defaultValue);</span>
-	}
+    /**
+     * Appends some characters where any character are allowed.
+     * 
+     * @param repeat
+     *            number of character to append
+     * @param defaultValue
+     *            the default value for each character
+     * @return this {@link MaskBuilder}
+     */
+    public MaskBuilder appendAny(final int repeat, final char defaultValue)
+    {
+<span class="fc" id="L410">        return append(repeat, c -&gt; true, defaultValue);</span>
+    }
 
-	/**
-	 * Appends some characters where allowing only character defined by the &lt;code&gt;allowed&lt;/code&gt; predicate.
-	 * 
-	 * @param repeat
-	 *            number of character to append
-	 * @param allowed
-	 *            {@link Predicate} called to allow characters
-	 * @param defaultValue
-	 *            the default value for each character
-	 * @return this {@link MaskBuilder}
-	 */
-	public MaskBuilder append(final int repeat, final Predicate&lt;Character&gt; allowed, final char defaultValue)
-	{
-<span class="fc" id="L426">		return append(repeat, new DefaultMaskCharacter(allowed, defaultValue));</span>
-	}
+    /**
+     * Appends some characters where allowing only character defined by the &lt;code&gt;allowed&lt;/code&gt; predicate.
+     * 
+     * @param repeat
+     *            number of character to append
+     * @param allowed
+     *            {@link Predicate} called to allow characters
+     * @param defaultValue
+     *            the default value for each character
+     * @return this {@link MaskBuilder}
+     */
+    public MaskBuilder append(final int repeat, final Predicate&lt;Character&gt; allowed, final char defaultValue)
+    {
+<span class="fc" id="L426">        return append(repeat, new DefaultMaskCharacter(allowed, defaultValue));</span>
+    }
 
-	/**
-	 * Appends some characters where allowing only character defined by the &lt;code&gt;allowed&lt;/code&gt; predicate.
-	 * 
-	 * @param repeat
-	 *            number of character to append
-	 * @param allowed
-	 *            {@link Predicate} called to allow characters
-	 * @param transformation
-	 *            transformation to apply to the input characters
-	 * @param defaultValue
-	 *            the default value for each character
-	 * @return this {@link MaskBuilder}
-	 */
-	public MaskBuilder append(final int repeat, final Predicate&lt;Character&gt; allowed,
-			final UnaryOperator&lt;Character&gt; transformation, final char defaultValue)
-	{
-<span class="fc" id="L445">		return append(repeat, new DefaultMaskCharacter(allowed, transformation, defaultValue));</span>
-	}
+    /**
+     * Appends some characters where allowing only character defined by the &lt;code&gt;allowed&lt;/code&gt; predicate.
+     * 
+     * @param repeat
+     *            number of character to append
+     * @param allowed
+     *            {@link Predicate} called to allow characters
+     * @param transformation
+     *            transformation to apply to the input characters
+     * @param defaultValue
+     *            the default value for each character
+     * @return this {@link MaskBuilder}
+     */
+    public MaskBuilder append(final int repeat, final Predicate&lt;Character&gt; allowed,
+            final UnaryOperator&lt;Character&gt; transformation, final char defaultValue)
+    {
+<span class="fc" id="L445">        return append(repeat, new DefaultMaskCharacter(allowed, transformation, defaultValue));</span>
+    }
 
-	/**
-	 * Appends a {@link MaskCharacter}.
-	 * 
-	 * @param maskCharacter
-	 *            the {@link MaskCharacter} to append
-	 * @return this {@link MaskBuilder}
-	 */
-	public MaskBuilder append(final MaskCharacter maskCharacter)
-	{
-<span class="nc" id="L457">		return append(1, maskCharacter);</span>
-	}
+    /**
+     * Appends a {@link MaskCharacter}.
+     * 
+     * @param maskCharacter
+     *            the {@link MaskCharacter} to append
+     * @return this {@link MaskBuilder}
+     */
+    public MaskBuilder append(final MaskCharacter maskCharacter)
+    {
+<span class="nc" id="L457">        return append(1, maskCharacter);</span>
+    }
 
-	/**
-	 * Appends some {@link MaskCharacter}.
-	 * 
-	 * @param repeat
-	 *            number of character to append
-	 * @param maskCharacter
-	 *            the {@link MaskCharacter} to append
-	 * @return this {@link MaskBuilder}
-	 */
-	public MaskBuilder append(final int repeat, final MaskCharacter maskCharacter)
-	{
-<span class="fc bfc" id="L471" title="All 2 branches covered.">		for (int i = 0; i &lt; repeat; i++)</span>
-		{
-<span class="fc" id="L473">			mask.add(maskCharacter);</span>
-		}
-<span class="fc" id="L475">		return this;</span>
-	}
+    /**
+     * Appends some {@link MaskCharacter}.
+     * 
+     * @param repeat
+     *            number of character to append
+     * @param maskCharacter
+     *            the {@link MaskCharacter} to append
+     * @return this {@link MaskBuilder}
+     */
+    public MaskBuilder append(final int repeat, final MaskCharacter maskCharacter)
+    {
+<span class="fc bfc" id="L471" title="All 2 branches covered.">        for (int i = 0; i &lt; repeat; i++)</span>
+        {
+<span class="fc" id="L473">            mask.add(maskCharacter);</span>
+        }
+<span class="fc" id="L475">        return this;</span>
+    }
 
-	@Override
-	public MaskCharacter[] build()
-	{
-<span class="fc" id="L481">		return mask.toArray(new MaskCharacter[mask.size()]);</span>
-	}
+    @Override
+    public MaskCharacter[] build()
+    {
+<span class="fc" id="L481">        return mask.toArray(new MaskCharacter[mask.size()]);</span>
+    }
 
-	private static final class DefaultMaskCharacter implements MaskCharacter
-	{
-		private final char						defaultValue;
+    private static final class DefaultMaskCharacter implements MaskCharacter
+    {
+        private final char                     defaultValue;
 
-		private final Predicate&lt;Character&gt;		allowed;
+        private final Predicate&lt;Character&gt;     allowed;
 
-		private final UnaryOperator&lt;Character&gt;	transformation;
+        private final UnaryOperator&lt;Character&gt; transformation;
 
-		public DefaultMaskCharacter(final Predicate&lt;Character&gt; pAllowed, final char pDefaultValue)
-		{
-<span class="fc" id="L494">			this(pAllowed, UnaryOperator.identity(), pDefaultValue);</span>
-<span class="fc" id="L495">		}</span>
+        public DefaultMaskCharacter(final Predicate&lt;Character&gt; pAllowed, final char pDefaultValue)
+        {
+<span class="fc" id="L494">            this(pAllowed, UnaryOperator.identity(), pDefaultValue);</span>
+<span class="fc" id="L495">        }</span>
 
-		public DefaultMaskCharacter(final Predicate&lt;Character&gt; pAllowed, final UnaryOperator&lt;Character&gt; pTransformation,
-				final char pDefaultValue)
-<span class="fc" id="L499">		{</span>
-<span class="fc" id="L500">			allowed = pAllowed;</span>
-<span class="fc" id="L501">			defaultValue = pDefaultValue;</span>
-<span class="fc" id="L502">			transformation = pTransformation;</span>
-<span class="fc" id="L503">		}</span>
+        public DefaultMaskCharacter(final Predicate&lt;Character&gt; pAllowed, final UnaryOperator&lt;Character&gt; pTransformation,
+                final char pDefaultValue)
+<span class="fc" id="L499">        {</span>
+<span class="fc" id="L500">            allowed = pAllowed;</span>
+<span class="fc" id="L501">            defaultValue = pDefaultValue;</span>
+<span class="fc" id="L502">            transformation = pTransformation;</span>
+<span class="fc" id="L503">        }</span>
 
-		@Override
-		public boolean isAllowed(final char c)
-		{
-<span class="fc" id="L508">			return allowed.test(c);</span>
-		}
+        @Override
+        public boolean isAllowed(final char c)
+        {
+<span class="fc" id="L508">            return allowed.test(c);</span>
+        }
 
-		@Override
-		public char tranform(final char c)
-		{
-<span class="fc" id="L514">			return transformation.apply(c);</span>
-		}
+        @Override
+        public char tranform(final char c)
+        {
+<span class="fc" id="L514">            return transformation.apply(c);</span>
+        }
 
-		@Override
-		public char getDefault()
-		{
-<span class="fc" id="L520">			return defaultValue;</span>
-		}
+        @Override
+        public char getDefault()
+        {
+<span class="fc" id="L520">            return defaultValue;</span>
+        }
 
-		@Override
-		public boolean isNavigable()
-		{
-<span class="fc" id="L526">			return true;</span>
-		}
-	}
+        @Override
+        public boolean isNavigable()
+        {
+<span class="fc" id="L526">            return true;</span>
+        }
+    }
 
-	private static final class LiteralMaskCharacter implements MaskCharacter
-	{
-		private final char constant;
+    private static final class LiteralMaskCharacter implements MaskCharacter
+    {
+        private final char constant;
 
-		public LiteralMaskCharacter(final char pConstant)
-<span class="fc" id="L535">		{</span>
-<span class="fc" id="L536">			constant = pConstant;</span>
-<span class="fc" id="L537">		}</span>
+        public LiteralMaskCharacter(final char pConstant)
+<span class="fc" id="L535">        {</span>
+<span class="fc" id="L536">            constant = pConstant;</span>
+<span class="fc" id="L537">        }</span>
 
-		@Override
-		public boolean isAllowed(final char c)
-		{
-<span class="fc bfc" id="L542" title="All 2 branches covered.">			return constant == c;</span>
-		}
+        @Override
+        public boolean isAllowed(final char c)
+        {
+<span class="fc bfc" id="L542" title="All 2 branches covered.">            return constant == c;</span>
+        }
 
-		@Override
-		public char tranform(final char c)
-		{
-<span class="fc" id="L548">			return constant;</span>
-		}
+        @Override
+        public char tranform(final char c)
+        {
+<span class="fc" id="L548">            return constant;</span>
+        }
 
-		@Override
-		public char getDefault()
-		{
-<span class="fc" id="L554">			return constant;</span>
-		}
+        @Override
+        public char getDefault()
+        {
+<span class="fc" id="L554">            return constant;</span>
+        }
 
-		@Override
-		public boolean isNavigable()
-		{
-<span class="fc" id="L560">			return false;</span>
-		}
-	}
+        @Override
+        public boolean isNavigable()
+        {
+<span class="fc" id="L560">            return false;</span>
+        }
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>
