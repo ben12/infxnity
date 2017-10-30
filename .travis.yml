@@ -1,0 +1,22 @@
+language: java
+sudo: false
+os: linux
+dist: trusty
+jdk: oraclejdk8
+addons:
+  apt:
+    packages:
+    - oracle-java8-installer
+  sonarcloud:
+    organization: ben12-github
+    token:
+      secure: "${SONAR_TOKEN}"
+install: true
+before_script:
+- if [[ "${TRAVIS_OS_NAME}" == linux ]]; then export DISPLAY=:99.0; sh -e /etc/init.d/xvfb
+  start; fi
+script:
+- mvn install jacoco:report sonar:sonar
+env:
+  global:
+    secure: drGNRZ9qaQ0bT1//C5fkSzvMwu6LqkKkGgH4KNnCaS9LP2rIbbdxyytM0aUHr3n5aPvYJH/jsLXeUah60BrJNXE5N/s1cEW5/s/1LAYNfrBxB+ZlmzrkJCaZkru5mwW9jRZCPFhIUU4DoMe0AJPH8NUx2hJqdGr89eBGMUItc6r5jzyHcK6RltkpW/hKaFvvKBYSwuw/aCVuv0KIHBTvk062t1srm6Vz0n2bYiQ3PwVK6YcY8UMEhXdp2rdKMDNYH0VmNibQuYr/rRbtfNIvLil0ifx1X4B257OClvvKXWDWj0+OefAOPa75p2f7XooFQBps5nhIBAGI/QBkqHCpgq1l+S9aORKt/F9mM4Xxd0wUgdBEIazEiuX0SfYJmIurMJ7XYKYe5cctnNlPI7ly4aVXYkyCn0Fgv5rhyEA98bdFTMuZwok+HkR9ocJ6kIlxEldbs6M5UJyQdwvI9RGaWJaTkpSYS1cuZKBntju4euEAmIjIEQH93AWrEgaWIudZ7BB1Rj6pphFkcl6PiLEEjh7O1JkM4R38xzpC69MdoBBGqTj72owhihrBm7oVduNtQ0CAj0IsJ2U0LzHRCrnIqyx3hMPXTIBFvGpgTTrwipe1PN1TGjAm47Cn6t7v/fgN1Aj0aydU8qcipi+ivaxXMnP2O/LYpZip1qyjHAc38NE=
