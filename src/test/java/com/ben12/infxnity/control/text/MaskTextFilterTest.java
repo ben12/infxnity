@@ -10,6 +10,8 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.control.TextInputControlMatchers.hasText;
 
+import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -37,7 +39,6 @@ public class MaskTextFilterTest extends ApplicationTest
 {
     // QWERTY and AZERTY compatible
     private static final Map<KeyCode, Character> SOME_ANY     = ImmutableMap.<KeyCode, Character> builder()
-                                                                            .put(KeyCode.COMMA, ',')
                                                                             .put(KeyCode.ADD, '+')
                                                                             .put(KeyCode.SPACE, ' ')
                                                                             .put(KeyCode.EQUALS, '=')
@@ -133,6 +134,15 @@ public class MaskTextFilterTest extends ApplicationTest
     public void init() throws Exception
     {
         release(KeyCode.SHIFT);
+        release(KeyCode.CONTROL);
+        release(KeyCode.ALT);
+        release(KeyCode.ALT_GRAPH);
+
+        if (Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_CAPS_LOCK))
+        {
+            type(KeyCode.CAPS);
+        }
+
         super.init();
     }
 
