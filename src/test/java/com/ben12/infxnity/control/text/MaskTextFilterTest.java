@@ -206,7 +206,7 @@ public class MaskTextFilterTest extends ApplicationTest
         interact(() -> textField.selectRange(1, 1));
 
         verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 1);
-        type(KeyCode.A);
+        write('a');
         verifyThat("#formatted", hasText(DEFAULT_TEXT));
         verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 1);
 
@@ -227,7 +227,7 @@ public class MaskTextFilterTest extends ApplicationTest
         interact(() -> textField.selectRange(3, 3));
 
         verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 3);
-        type(KeyCode.G);
+        write('g');
         verifyThat("#formatted", hasText(DEFAULT_TEXT));
         verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 3);
 
@@ -248,7 +248,7 @@ public class MaskTextFilterTest extends ApplicationTest
         interact(() -> textField.selectRange(5, 5));
 
         verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 5);
-        type(KeyCode.NUMPAD0);
+        write('0');
         verifyThat("#formatted", hasText(DEFAULT_TEXT));
         verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 5);
 
@@ -277,7 +277,7 @@ public class MaskTextFilterTest extends ApplicationTest
         interact(() -> textField.selectRange(7, 7));
 
         verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 7);
-        type(KeyCode.ADD);
+        write('+');
         verifyThat("#formatted", hasText(DEFAULT_TEXT));
         verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 7);
 
@@ -314,7 +314,7 @@ public class MaskTextFilterTest extends ApplicationTest
         interact(() -> textField.selectRange(9, 9));
 
         verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 9);
-        type(KeyCode.MULTIPLY);
+        write('*');
         verifyThat("#formatted", hasText(DEFAULT_TEXT));
         verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 9);
 
@@ -343,7 +343,7 @@ public class MaskTextFilterTest extends ApplicationTest
         interact(() -> textField.selectRange(10, 10));
 
         verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 10);
-        type(KeyCode.COMMA);
+        write(',');
         verifyThat("#formatted", hasText(DEFAULT_TEXT));
         verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 10);
 
@@ -390,16 +390,26 @@ public class MaskTextFilterTest extends ApplicationTest
         interact(() -> textField.selectRange(14, 14));
 
         verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 14);
-        type(KeyCode.NUMPAD0);
+        write('0');
         verifyThat("#formatted", hasText(DEFAULT_TEXT));
         verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 14);
 
-        type(KeyCode.ADD);
+        write('+');
         verifyThat("#formatted", hasText("\\0,0.a$a!aAU ^P/"));
         verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 16);
         interact(() -> textField.selectRange(14, 14));
 
-        type(KeyCode.SUBTRACT);
+        write('-');
+        verifyThat("#formatted", hasText("\\0,0.a$a!aAU ^M/"));
+        verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 16);
+        interact(() -> textField.selectRange(14, 14));
+
+        write('P');
+        verifyThat("#formatted", hasText("\\0,0.a$a!aAU ^P/"));
+        verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 16);
+        interact(() -> textField.selectRange(14, 14));
+
+        write('M');
         verifyThat("#formatted", hasText("\\0,0.a$a!aAU ^M/"));
         verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 16);
         interact(() -> textField.selectRange(14, 14));
