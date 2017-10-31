@@ -10,8 +10,6 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.control.TextInputControlMatchers.hasText;
 
-import java.awt.Toolkit;
-import java.awt.event.KeyEvent;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -37,64 +35,68 @@ import javafx.stage.Stage;
  */
 public class MaskTextFilterTest extends ApplicationTest
 {
-    // QWERTY and AZERTY compatible
-    private static final Map<KeyCode, Character> SOME_ANY     = ImmutableMap.<KeyCode, Character> builder()
-                                                                            .put(KeyCode.ADD, '+')
-                                                                            .put(KeyCode.SPACE, ' ')
-                                                                            .put(KeyCode.EQUALS, '=')
-                                                                            .put(KeyCode.Z, 'z')
-                                                                            .put(KeyCode.NUMPAD3, '3')
-                                                                            .build();
+    private static final Map<Character, Character> SOME_ANY     = ImmutableMap.<Character, Character> builder()
+                                                                              .put('^', '^')
+                                                                              .put('+', '+')
+                                                                              .put(' ', ' ')
+                                                                              .put('=', '=')
+                                                                              .put('z', 'z')
+                                                                              .put('3', '3')
+                                                                              .build();
 
-    private static final Map<KeyCode, Character> NUMBERS      = ImmutableMap.<KeyCode, Character> builder()
-                                                                            .put(KeyCode.NUMPAD9, '9')
-                                                                            .put(KeyCode.NUMPAD8, '8')
-                                                                            .put(KeyCode.NUMPAD7, '7')
-                                                                            .put(KeyCode.NUMPAD6, '6')
-                                                                            .put(KeyCode.NUMPAD5, '5')
-                                                                            .put(KeyCode.NUMPAD4, '4')
-                                                                            .put(KeyCode.NUMPAD3, '3')
-                                                                            .put(KeyCode.NUMPAD2, '2')
-                                                                            .put(KeyCode.NUMPAD1, '1')
-                                                                            .put(KeyCode.NUMPAD0, '0')
-                                                                            .build();
+    private static final Map<Character, Character> NUMBERS      = ImmutableMap.<Character, Character> builder()
+                                                                              .put('9', '9')
+                                                                              .put('8', '8')
+                                                                              .put('7', '7')
+                                                                              .put('6', '6')
+                                                                              .put('5', '5')
+                                                                              .put('4', '4')
+                                                                              .put('3', '3')
+                                                                              .put('2', '2')
+                                                                              .put('1', '1')
+                                                                              .put('0', '0')
+                                                                              .build();
 
-    private static final Map<KeyCode, Character> HEXA         = ImmutableMap.<KeyCode, Character> builder()
-                                                                            .put(KeyCode.NUMPAD9, '9')
-                                                                            .put(KeyCode.NUMPAD8, '8')
-                                                                            .put(KeyCode.NUMPAD7, '7')
-                                                                            .put(KeyCode.NUMPAD6, '6')
-                                                                            .put(KeyCode.NUMPAD5, '5')
-                                                                            .put(KeyCode.NUMPAD4, '4')
-                                                                            .put(KeyCode.NUMPAD3, '3')
-                                                                            .put(KeyCode.NUMPAD2, '2')
-                                                                            .put(KeyCode.NUMPAD1, '1')
-                                                                            .put(KeyCode.A, 'A')
-                                                                            .put(KeyCode.B, 'B')
-                                                                            .put(KeyCode.C, 'C')
-                                                                            .put(KeyCode.D, 'D')
-                                                                            .put(KeyCode.E, 'E')
-                                                                            .put(KeyCode.F, 'F')
-                                                                            .put(KeyCode.NUMPAD0, '0')
-                                                                            .build();
+    private static final Map<Character, Character> HEXA         = ImmutableMap.<Character, Character> builder()
+                                                                              .put('9', '9')
+                                                                              .put('8', '8')
+                                                                              .put('7', '7')
+                                                                              .put('6', '6')
+                                                                              .put('5', '5')
+                                                                              .put('4', '4')
+                                                                              .put('3', '3')
+                                                                              .put('2', '2')
+                                                                              .put('1', '1')
+                                                                              .put('a', 'A')
+                                                                              .put('b', 'B')
+                                                                              .put('c', 'C')
+                                                                              .put('d', 'D')
+                                                                              .put('e', 'E')
+                                                                              .put('f', 'F')
+                                                                              .put('A', 'A')
+                                                                              .put('B', 'B')
+                                                                              .put('C', 'C')
+                                                                              .put('D', 'D')
+                                                                              .put('E', 'E')
+                                                                              .put('F', 'F')
+                                                                              .put('0', '0')
+                                                                              .build();
 
-    private static final Map<KeyCode, Character> LOWER_LETTER = IntStream.range(0, 26)
-                                                                         .mapToObj(Integer::valueOf)
-                                                                         .collect(Collectors.toMap(i -> KeyCode.getKeyCode(Character.toString((char) ('A'
-                                                                                 + i))), i -> (char) ('a' + i),
-                                                                                                   (t, u) -> t,
-                                                                                                   LinkedHashMap::new));
+    private static final Map<Character, Character> LOWER_LETTER = IntStream.range(0, 26)
+                                                                           .mapToObj(Integer::valueOf)
+                                                                           .collect(Collectors.toMap(i -> (char) ('a'
+                                                                                   + i), i -> (char) ('a' + i), (t,
+                                                                                           u) -> t, LinkedHashMap::new));
 
-    private static final Map<KeyCode, Character> UPPER_LETTER = IntStream.range(0, 26)
-                                                                         .mapToObj(Integer::valueOf)
-                                                                         .collect(Collectors.toMap(i -> KeyCode.getKeyCode(Character.toString((char) ('A'
-                                                                                 + i))), i -> (char) ('A' + i),
-                                                                                                   (t, u) -> t,
-                                                                                                   LinkedHashMap::new));
+    private static final Map<Character, Character> UPPER_LETTER = IntStream.range(0, 26)
+                                                                           .mapToObj(Integer::valueOf)
+                                                                           .collect(Collectors.toMap(i -> (char) ('A'
+                                                                                   + i), i -> (char) ('A' + i), (t,
+                                                                                           u) -> t, LinkedHashMap::new));
 
-    private static final String                  DEFAULT_TEXT = "\\0,0.a$a!aAU ^_/";
+    private static final String                    DEFAULT_TEXT = "\\0,0.a$a!aAU ^_/";
 
-    private TextField                            textField;
+    private TextField                              textField;
 
     @Override
     public void start(final Stage stage) throws Exception
@@ -137,11 +139,6 @@ public class MaskTextFilterTest extends ApplicationTest
         release(KeyCode.CONTROL);
         release(KeyCode.ALT);
         release(KeyCode.ALT_GRAPH);
-
-        if (Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_CAPS_LOCK))
-        {
-            type(KeyCode.CAPS);
-        }
 
         super.init();
     }
@@ -213,9 +210,9 @@ public class MaskTextFilterTest extends ApplicationTest
         verifyThat("#formatted", hasText(DEFAULT_TEXT));
         verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 1);
 
-        for (final Entry<KeyCode, Character> e : NUMBERS.entrySet())
+        for (final Entry<Character, Character> e : NUMBERS.entrySet())
         {
-            type(e.getKey());
+            write(e.getKey());
             verifyThat("#formatted", hasText("\\" + e.getValue() + ",0.a$a!aAU ^_/"));
             verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 3);
             interact(() -> textField.selectRange(1, 1));
@@ -234,9 +231,9 @@ public class MaskTextFilterTest extends ApplicationTest
         verifyThat("#formatted", hasText(DEFAULT_TEXT));
         verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 3);
 
-        for (final Entry<KeyCode, Character> e : HEXA.entrySet())
+        for (final Entry<Character, Character> e : HEXA.entrySet())
         {
-            type(e.getKey());
+            write(e.getKey());
             verifyThat("#formatted", hasText("\\0," + e.getValue() + ".a$a!aAU ^_/"));
             verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 5);
             interact(() -> textField.selectRange(3, 3));
@@ -255,28 +252,20 @@ public class MaskTextFilterTest extends ApplicationTest
         verifyThat("#formatted", hasText(DEFAULT_TEXT));
         verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 5);
 
-        for (final Entry<KeyCode, Character> e : LOWER_LETTER.entrySet())
+        for (final Entry<Character, Character> e : LOWER_LETTER.entrySet())
         {
-            type(e.getKey());
+            write(e.getKey());
             verifyThat("#formatted", hasText("\\0,0." + e.getValue() + "$a!aAU ^_/"));
             verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 7);
             interact(() -> textField.selectRange(5, 5));
         }
 
-        try
+        for (final Entry<Character, Character> e : UPPER_LETTER.entrySet())
         {
-            press(KeyCode.SHIFT);
-            for (final Entry<KeyCode, Character> e : UPPER_LETTER.entrySet())
-            {
-                type(e.getKey());
-                verifyThat("#formatted", hasText("\\0,0." + e.getValue() + "$a!aAU ^_/"));
-                verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 7);
-                interact(() -> textField.selectRange(5, 5));
-            }
-        }
-        finally
-        {
-            release(KeyCode.SHIFT);
+            write(e.getKey());
+            verifyThat("#formatted", hasText("\\0,0." + e.getValue() + "$a!aAU ^_/"));
+            verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 7);
+            interact(() -> textField.selectRange(5, 5));
         }
     }
 
@@ -292,33 +281,25 @@ public class MaskTextFilterTest extends ApplicationTest
         verifyThat("#formatted", hasText(DEFAULT_TEXT));
         verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 7);
 
-        for (final Entry<KeyCode, Character> e : LOWER_LETTER.entrySet())
+        for (final Entry<Character, Character> e : LOWER_LETTER.entrySet())
         {
-            type(e.getKey());
+            write(e.getKey());
             verifyThat("#formatted", hasText("\\0,0.a$" + e.getValue() + "!aAU ^_/"));
             verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 9);
             interact(() -> textField.selectRange(7, 7));
         }
 
-        try
+        for (final Entry<Character, Character> e : UPPER_LETTER.entrySet())
         {
-            press(KeyCode.SHIFT);
-            for (final Entry<KeyCode, Character> e : UPPER_LETTER.entrySet())
-            {
-                type(e.getKey());
-                verifyThat("#formatted", hasText("\\0,0.a$" + e.getValue() + "!aAU ^_/"));
-                verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 9);
-                interact(() -> textField.selectRange(7, 7));
-            }
-        }
-        finally
-        {
-            release(KeyCode.SHIFT);
+            write(e.getKey());
+            verifyThat("#formatted", hasText("\\0,0.a$" + e.getValue() + "!aAU ^_/"));
+            verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 9);
+            interact(() -> textField.selectRange(7, 7));
         }
 
-        for (final Entry<KeyCode, Character> e : NUMBERS.entrySet())
+        for (final Entry<Character, Character> e : NUMBERS.entrySet())
         {
-            type(e.getKey());
+            write(e.getKey());
             verifyThat("#formatted", hasText("\\0,0.a$" + e.getValue() + "!aAU ^_/"));
             verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 9);
             interact(() -> textField.selectRange(7, 7));
@@ -337,28 +318,20 @@ public class MaskTextFilterTest extends ApplicationTest
         verifyThat("#formatted", hasText(DEFAULT_TEXT));
         verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 9);
 
-        for (final Entry<KeyCode, Character> e : LOWER_LETTER.entrySet())
+        for (final Entry<Character, Character> e : LOWER_LETTER.entrySet())
         {
-            type(e.getKey());
+            write(e.getKey());
             verifyThat("#formatted", hasText("\\0,0.a$a!" + e.getValue() + "AU ^_/"));
             verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 10);
             interact(() -> textField.selectRange(9, 9));
         }
 
-        try
+        for (final Entry<Character, Character> e : UPPER_LETTER.entrySet())
         {
-            press(KeyCode.SHIFT);
-            for (final Entry<KeyCode, Character> e : UPPER_LETTER.entrySet())
-            {
-                type(e.getKey());
-                verifyThat("#formatted", hasText("\\0,0.a$a!" + Character.toLowerCase(e.getValue()) + "AU ^_/"));
-                verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 10);
-                interact(() -> textField.selectRange(9, 9));
-            }
-        }
-        finally
-        {
-            release(KeyCode.SHIFT);
+            write(e.getKey());
+            verifyThat("#formatted", hasText("\\0,0.a$a!" + Character.toLowerCase(e.getValue()) + "AU ^_/"));
+            verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 10);
+            interact(() -> textField.selectRange(9, 9));
         }
     }
 
@@ -374,28 +347,20 @@ public class MaskTextFilterTest extends ApplicationTest
         verifyThat("#formatted", hasText(DEFAULT_TEXT));
         verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 10);
 
-        for (final Entry<KeyCode, Character> e : LOWER_LETTER.entrySet())
+        for (final Entry<Character, Character> e : LOWER_LETTER.entrySet())
         {
-            type(e.getKey());
+            write(e.getKey());
             verifyThat("#formatted", hasText("\\0,0.a$a!a" + Character.toUpperCase(e.getValue()) + "U ^_/"));
             verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 12);
             interact(() -> textField.selectRange(10, 10));
         }
 
-        try
+        for (final Entry<Character, Character> e : UPPER_LETTER.entrySet())
         {
-            press(KeyCode.SHIFT);
-            for (final Entry<KeyCode, Character> e : UPPER_LETTER.entrySet())
-            {
-                type(e.getKey());
-                verifyThat("#formatted", hasText("\\0,0.a$a!a" + e.getValue() + "U ^_/"));
-                verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 12);
-                interact(() -> textField.selectRange(10, 10));
-            }
-        }
-        finally
-        {
-            release(KeyCode.SHIFT);
+            write(e.getKey());
+            verifyThat("#formatted", hasText("\\0,0.a$a!a" + e.getValue() + "U ^_/"));
+            verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 12);
+            interact(() -> textField.selectRange(10, 10));
         }
     }
 
@@ -408,9 +373,9 @@ public class MaskTextFilterTest extends ApplicationTest
 
         verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 12);
 
-        for (final Entry<KeyCode, Character> e : SOME_ANY.entrySet())
+        for (final Entry<Character, Character> e : SOME_ANY.entrySet())
         {
-            type(e.getKey());
+            write(e.getKey());
             verifyThat("#formatted", hasText("\\0,0.a$a!aAU" + e.getValue() + "^_/"));
             verifyThat("#formatted", (final TextField textField) -> textField.getCaretPosition() == 14);
             interact(() -> textField.selectRange(12, 12));
