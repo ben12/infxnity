@@ -19,6 +19,8 @@ script:
       -Dsonar.organization=ben12-github
       -Dsonar.login=${SONAR_TOKEN}
       -Dsonar.branch.name=${TRAVIS_BRANCH}
+after_success:
+- echo 'infxnity.ben12.eu' > ./target/site/CNAME
 deploy:
   provider: pages
   skip_cleanup: true
