@@ -23,6 +23,7 @@
 	<body>
 		<menu ref="reports" inherit="top" />
 		<menu name="External reports">
+			<item name="Tavis-CI" href="https://travis-ci.org/ben12/infxnity/branches" />
 			<item name="SonarCloud" href="https://sonarcloud.io/dashboard?id=com.ben12%3Ainfxnity" />
 		</menu>
 	</body>
