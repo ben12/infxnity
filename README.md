@@ -77,3 +77,28 @@ System.out.println(aggregation); // [-1, 0, 1, 2, 3, 4, 5]
 aggregation.getLists().remove(list1);
 System.out.println(aggregation); // [3, 4, 5]
 ```
+
+### [IFXContentBinding](http://infxnity.ben12.eu/apidocs/com/ben12/infxnity/binding/IFXContentBinding.html)
+
+Used to bind a list to an [`ObservableList`](https://docs.oracle.com/javase/8/javafx/api/javafx/collections/ObservableList.html) with a type conversion.
+
+Example:
+
+```java
+ObservableList<Person> personList = FXCollections.observableArrayList(person -> new Observable[] { person.nameProperty() });
+ObservableList<String> personNameList = FXCollections.observableArrayList();
+
+IFXContentBinding.bind(personNameList, personList, Person::getName);
+
+System.out.println(personNameList); // []
+
+personList.add(new Person("Bob"));
+System.out.println(personNameList); // [Bob]
+
+personList.addAll(new Person("Fred"), new Person("John"));
+System.out.println(personNameList); // [Bob, Fred, John]
+
+personList.get(0).setName("George");
+System.out.println(personNameList); // [George, Fred, John]
+
+```
