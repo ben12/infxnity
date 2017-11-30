@@ -248,18 +248,29 @@ public class IFXContentBindingTest
         final ObservableList<String> collection2 = FXCollections.observableArrayList();
 
         IFXContentBinding.bind(collection2, collection1, Model::getText);
-        IFXContentBinding.unbind(collection2, collection1);
 
         final AtomicReference<ListChangeListener.Change<? extends String>> change = new AtomicReference<>(null);
         collection2.addListener((ListChangeListener<String>) c -> {
             change.set(c);
         });
 
-        collection1.addAll(2, Arrays.asList(new Model("value2bis"), new Model("value2ter")));
+        IFXContentBinding.unbind(FXCollections.observableArrayList(), collection1);
+        collection1.add(new Model("value5"));
+        assertNotNull("Change event", change.get());
+        assertEquals(Arrays.asList("value1", "value2", "value3", "value4", "value5"), collection2);
 
+        change.set(null);
+        IFXContentBinding.unbind(collection2, FXCollections.observableArrayList());
+        collection1.add(new Model("value6"));
+        assertNotNull("Change event", change.get());
+        assertEquals(Arrays.asList("value1", "value2", "value3", "value4", "value5", "value6"), collection2);
+
+        change.set(null);
+        IFXContentBinding.unbind(collection2, collection1);
+
+        collection1.add(new Model("value7"));
         assertNull("Change event", change.get());
-
-        assertEquals(Arrays.asList("value1", "value2", "value3", "value4"), collection2);
+        assertEquals(Arrays.asList("value1", "value2", "value3", "value4", "value5", "value6"), collection2);
     }
 
     private static final class Model
