@@ -3,13 +3,13 @@ JavaFX "to infinity and beyond"
 
 [![GitHub license](https://img.shields.io/github/license/ben12/infxnity.svg)](https://github.com/ben12/infxnity/blob/master/LICENSE)
 [![Build Status](https://travis-ci.org/ben12/infxnity.svg?branch=master)](https://travis-ci.org/ben12/infxnity)
-[![Quality Gate](https://sonarcloud.io/api/badges/gate?key=com.ben12:infxnity)](https://sonarcloud.io/dashboard?id=com.ben12%3Ainfxnity)
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=com.ben12:infxnity&metric=alert_status)](https://sonarcloud.io/dashboard?id=com.ben12%3Ainfxnity)
 [![GitHub version](https://badge.fury.io/gh/ben12%2Finfxnity.svg)](https://github.com/ben12/infxnity/releases)
 
-[![Quality Gate](https://sonarcloud.io/api/badges/measure?key=com.ben12:infxnity&metric=lines)](https://sonarcloud.io/dashboard?id=com.ben12%3Ainfxnity)
-[![Quality Gate](https://sonarcloud.io/api/badges/measure?key=com.ben12:infxnity&metric=coverage)](https://sonarcloud.io/dashboard?id=com.ben12%3Ainfxnity)
-[![Quality Gate](https://sonarcloud.io/api/badges/measure?key=com.ben12:infxnity&metric=code_smells)](https://sonarcloud.io/dashboard?id=com.ben12%3Ainfxnity)
-[![Quality Gate](https://sonarcloud.io/api/badges/measure?key=com.ben12:infxnity&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=com.ben12%3Ainfxnity)
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=com.ben12:infxnity&metric=ncloc)](https://sonarcloud.io/dashboard?id=com.ben12%3Ainfxnity)
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=com.ben12:infxnity&metric=coverage)](https://sonarcloud.io/dashboard?id=com.ben12%3Ainfxnity)
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=com.ben12:infxnity&metric=code_smells)](https://sonarcloud.io/dashboard?id=com.ben12%3Ainfxnity)
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=com.ben12:infxnity&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=com.ben12%3Ainfxnity)
 
 
 ## Features
