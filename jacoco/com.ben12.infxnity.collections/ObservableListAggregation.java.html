@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ObservableListAggregation.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">infxnity</a> &gt; <a href="index.source.html" class="el_package">com.ben12.infxnity.collections</a> &gt; <span class="el_source">ObservableListAggregation.java</span></div><h1>ObservableListAggregation.java</h1><pre class="source lang-java linenums">// Copyright (C) 2017 Benoît Moreau (ben.12)
+// 
+// This software may be modified and distributed under the terms
+// of the MIT license.  See the LICENSE file for details.
+package com.ben12.infxnity.collections;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableListBase;
+
+/**
+ * &lt;p&gt;
+ * An {@link ObservableList} aggregating other {@link ObservableList}(s).
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * All events of aggregated {@link ObservableList}(s) are forwarded.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * The list of aggregated {@link ObservableList}(s) can be modified to add, remove or replace one or more of the aggregated {@link ObservableList}(s).
+ * An appropriate event will be fired.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * An instance of {@link ObservableListAggregation} is a read only list. Any attempt to modify the list will throw an {@link UnsupportedOperationException}.
+ * &lt;/p&gt;
+ * 
+ * @author Benoît Moreau (ben.12)
+ */
+public class ObservableListAggregation&lt;E&gt; extends ObservableListBase&lt;E&gt;
+{
+<span class="fc" id="L35">    private final ObservableList&lt;ObservableList&lt;? extends E&gt;&gt; lists = FXCollections.observableArrayList();</span>
+
+    private ListChangeListener&lt;E&gt;                             listener;
+
+    /**
+     * Construct an empty list.
+     */
+    public ObservableListAggregation()
+    {
+<span class="fc" id="L44">        this(Collections.emptyList());</span>
+<span class="fc" id="L45">    }</span>
+
+    /**
+     * Construct an aggregate list.
+     * 
+     * @param pLists
+     *            list of {@link ObservableList}s to aggregate
+     */
+    @SuppressWarnings(&quot;unchecked&quot;)
+    public ObservableListAggregation(final List&lt;ObservableList&lt;? extends E&gt;&gt; pLists)
+    {
+<span class="fc" id="L56">        this(pLists.toArray(new ObservableList[pLists.size()]));</span>
+<span class="fc" id="L57">    }</span>
+
+    /**
+     * Construct an aggregate list.
+     * 
+     * @param pLists
+     *            {@link ObservableList}s to aggregate
+     */
+    @SafeVarargs
+    public ObservableListAggregation(final ObservableList&lt;? extends E&gt;... pLists)
+<span class="fc" id="L67">    {</span>
+<span class="fc" id="L68">        lists.setAll(pLists);</span>
+
+<span class="fc" id="L70">        listener = c -&gt; {</span>
+<span class="fc" id="L71">            final ObservableList&lt;? extends E&gt; source = c.getList();</span>
+<span class="fc" id="L72">            final int listIndex = lists.indexOf(source);</span>
+
+<span class="fc" id="L74">            beginChange();</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">            while (c.next())</span>
+            {
+<span class="fc" id="L77">                final int offset = lists.stream().limit(listIndex).mapToInt(List::size).sum();</span>
+<span class="fc" id="L78">                final int from = offset + c.getFrom();</span>
+<span class="fc" id="L79">                final int to = offset + c.getTo();</span>
+
+<span class="fc bfc" id="L81" title="All 2 branches covered.">                if (c.wasPermutated())</span>
+                {
+<span class="fc" id="L83">                    final int[] perm = new int[to - from];</span>
+<span class="fc bfc" id="L84" title="All 2 branches covered.">                    for (int i = 0; i &lt; perm.length; i++)</span>
+                    {
+<span class="fc" id="L86">                        perm[i] = offset + c.getPermutation(i);</span>
+                    }
+<span class="fc" id="L88">                    nextPermutation(from, to, perm);</span>
+<span class="fc" id="L89">                }</span>
+                else
+                {
+<span class="fc bfc" id="L92" title="All 2 branches covered.">                    if (c.wasUpdated())</span>
+                    {
+<span class="fc bfc" id="L94" title="All 2 branches covered.">                        for (int i = from; i &lt; to; i++)</span>
+                        {
+<span class="fc" id="L96">                            nextUpdate(i);</span>
+                        }
+                    }
+<span class="fc bfc" id="L99" title="All 2 branches covered.">                    if (c.wasRemoved())</span>
+                    {
+<span class="fc" id="L101">                        nextRemove(from, c.getRemoved());</span>
+                    }
+<span class="fc bfc" id="L103" title="All 2 branches covered.">                    if (c.wasAdded())</span>
+                    {
+<span class="fc" id="L105">                        nextAdd(from, to);</span>
+                    }
+                }
+<span class="fc" id="L108">            }</span>
+<span class="fc" id="L109">            endChange();</span>
+<span class="fc" id="L110">        };</span>
+<span class="fc" id="L111">        lists.forEach(l -&gt; l.addListener(listener));</span>
+
+<span class="fc" id="L113">        lists.addListener((ListChangeListener&lt;ObservableList&lt;? extends E&gt;&gt;) c -&gt; {</span>
+<span class="fc" id="L114">            beginChange();</span>
+<span class="fc bfc" id="L115" title="All 2 branches covered.">            while (c.next())</span>
+            {
+<span class="fc" id="L117">                final int from = c.getList().stream().limit(c.getFrom()).mapToInt(List::size).sum();</span>
+
+<span class="fc bfc" id="L119" title="All 2 branches covered.">                if (c.wasRemoved())</span>
+                {
+<span class="fc" id="L121">                    c.getRemoved().forEach(l -&gt; l.removeListener(listener));</span>
+<span class="fc" id="L122">                    nextRemove(from, c.getRemoved().stream().flatMap(List::stream).collect(Collectors.toList()));</span>
+                }
+<span class="fc bfc" id="L124" title="All 2 branches covered.">                if (c.wasAdded())</span>
+                {
+<span class="fc" id="L126">                    c.getAddedSubList().forEach(l -&gt; l.addListener(listener));</span>
+<span class="fc" id="L127">                    nextAdd(from, from + c.getAddedSubList().stream().mapToInt(List::size).sum());</span>
+                }
+<span class="fc" id="L129">            }</span>
+<span class="fc" id="L130">            endChange();</span>
+<span class="fc" id="L131">        });</span>
+<span class="fc" id="L132">    }</span>
+
+    /**
+     * &lt;p&gt;
+     * Returns the {@link ObservableList} of aggregated {@link ObservableList}s.
+     * &lt;/p&gt;
+     * &lt;p&gt;
+     * The returned {@link ObservableList} can be modified.
+     * &lt;/p&gt;
+     * 
+     * @return the {@link ObservableList} of aggregated {@link ObservableList}s.
+     */
+    public ObservableList&lt;ObservableList&lt;? extends E&gt;&gt; getLists()
+    {
+<span class="fc" id="L146">        return lists;</span>
+    }
+
+    @Override
+    public E get(final int index)
+    {
+<span class="fc bfc" id="L152" title="All 2 branches covered.">        if (index &lt; 0)</span>
+        {
+<span class="fc" id="L154">            throw new IndexOutOfBoundsException();</span>
+        }
+
+<span class="fc" id="L157">        return lists.stream() //</span>
+<span class="fc" id="L158">                    .flatMap(List::stream)</span>
+<span class="fc" id="L159">                    .skip(index)</span>
+<span class="fc" id="L160">                    .findFirst()</span>
+<span class="fc" id="L161">                    .orElseThrow(IndexOutOfBoundsException::new);</span>
+    }
+
+    @Override
+    public int size()
+    {
+<span class="fc" id="L167">        return lists.stream() //</span>
+<span class="fc" id="L168">                    .mapToInt(List::size)</span>
+<span class="fc" id="L169">                    .sum();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

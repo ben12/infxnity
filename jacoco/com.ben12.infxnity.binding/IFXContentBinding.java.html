@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IFXContentBinding.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">infxnity</a> &gt; <a href="index.source.html" class="el_package">com.ben12.infxnity.binding</a> &gt; <span class="el_source">IFXContentBinding.java</span></div><h1>IFXContentBinding.java</h1><pre class="source lang-java linenums">// Copyright (C) 2017 Benoît Moreau (ben.12)
+// 
+// This software may be modified and distributed under the terms
+// of the MIT license.  See the LICENSE file for details.
+package com.ben12.infxnity.binding;
+
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+import javafx.beans.WeakListener;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
+
+/**
+ * Provide lists content binding with type mapping.
+ * 
+ * @author Benoît Moreau (ben.12)
+ */
+public class IFXContentBinding
+{
+    private IFXContentBinding()
+<span class="nc" id="L26">    {</span>
+<span class="nc" id="L27">    }</span>
+
+    /**
+     * Bind the content of &lt;code&gt;list2&lt;/code&gt; in &lt;code&gt;list1&lt;/code&gt; using &lt;code&gt;mapper&lt;/code&gt; to convert each element.
+     * 
+     * @param list1
+     *            destination list
+     * @param list2
+     *            source observable list
+     * @param mapper
+     *            list elements mapper from type E to the type R
+     * @param &lt;E&gt;
+     *            type of elements to bind in the source list
+     * @param &lt;R&gt;
+     *            type of elements binded in the destination list
+     */
+    public static &lt;E, R&gt; void bind(final List&lt;R&gt; list1, final ObservableList&lt;? extends E&gt; list2,
+            final Function&lt;E, R&gt; mapper)
+    {
+<span class="fc" id="L46">        final IFXListContentBinding&lt;E, R&gt; binding = new IFXListContentBinding&lt;&gt;(list1, mapper);</span>
+
+<span class="fc" id="L48">        final List&lt;R&gt; convertedList = list2.stream()</span>
+<span class="fc" id="L49">                                           .map(mapper)</span>
+<span class="fc" id="L50">                                           .collect(Collectors.toCollection(() -&gt; new ArrayList&lt;&gt;(list2.size())));</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">        if (list1 instanceof ObservableList)</span>
+        {
+<span class="fc" id="L53">            ((ObservableList&lt;R&gt;) list1).setAll(convertedList);</span>
+        }
+        else
+        {
+<span class="fc" id="L57">            list1.clear();</span>
+<span class="fc" id="L58">            list1.addAll(convertedList);</span>
+        }
+
+<span class="fc" id="L61">        list2.removeListener(binding);</span>
+<span class="fc" id="L62">        list2.addListener(binding);</span>
+<span class="fc" id="L63">    }</span>
+
+    /**
+     * Un-bind &lt;code&gt;list1&lt;/code&gt; of &lt;code&gt;list2&lt;/code&gt;.
+     * 
+     * @param list1
+     *            destination list
+     * @param list2
+     *            source observable list
+     */
+    public static &lt;E, R&gt; void unbind(final List&lt;R&gt; list1, final ObservableList&lt;? extends E&gt; list2)
+    {
+<span class="fc" id="L75">        list2.removeListener(new IFXListContentBinding&lt;&gt;(list1, null));</span>
+<span class="fc" id="L76">    }</span>
+
+    /**
+     * Listen and synchronize a list with another using a mapper.
+     * 
+     * @author Benoît Moreau (ben.12)
+     * @param &lt;E&gt;
+     *            type of elements to bind in the source list
+     * @param &lt;R&gt;
+     *            type of elements binded in the destination list
+     */
+    private static class IFXListContentBinding&lt;E, R&gt; implements ListChangeListener&lt;E&gt;, WeakListener
+    {
+        private final WeakReference&lt;List&lt;R&gt;&gt; destRef;
+
+        private final Function&lt;E, R&gt;         mapper;
+
+        public IFXListContentBinding(final List&lt;R&gt; destination, final Function&lt;E, R&gt; pMapper)
+<span class="fc" id="L94">        {</span>
+<span class="fc" id="L95">            destRef = new WeakReference&lt;&gt;(destination);</span>
+<span class="fc" id="L96">            mapper = pMapper;</span>
+<span class="fc" id="L97">        }</span>
+
+        @Override
+        public void onChanged(final ListChangeListener.Change&lt;? extends E&gt; c)
+        {
+<span class="fc" id="L102">            final List&lt;R&gt; list = destRef.get();</span>
+<span class="pc bpc" id="L103" title="1 of 2 branches missed.">            if (list == null)</span>
+            {
+<span class="nc" id="L105">                c.getList().removeListener(this);</span>
+            }
+            else
+            {
+<span class="fc bfc" id="L109" title="All 2 branches covered.">                while (c.next())</span>
+                {
+<span class="fc bfc" id="L111" title="All 2 branches covered.">                    if (c.wasPermutated())</span>
+                    {
+<span class="fc" id="L113">                        list.subList(c.getFrom(), c.getTo()).clear();</span>
+<span class="fc" id="L114">                        list.addAll(c.getFrom(),</span>
+<span class="fc" id="L115">                                    c.getList()</span>
+<span class="fc" id="L116">                                     .subList(c.getFrom(), c.getTo())</span>
+<span class="fc" id="L117">                                     .stream()</span>
+<span class="fc" id="L118">                                     .map(mapper)</span>
+<span class="fc" id="L119">                                     .collect(Collectors.toCollection(() -&gt; new ArrayList&lt;&gt;(c.getTo() - c.getFrom()))));</span>
+                    }
+                    else
+                    {
+<span class="fc bfc" id="L123" title="All 4 branches covered.">                        if (c.wasUpdated() || c.wasReplaced())</span>
+                        {
+<span class="fc" id="L125">                            final Iterator&lt;? extends E&gt; it = c.getList().subList(c.getFrom(), c.getTo()).iterator();</span>
+<span class="fc" id="L126">                            list.subList(c.getFrom(), c.getTo()).replaceAll(r -&gt; mapper.apply(it.next()));</span>
+<span class="fc" id="L127">                        }</span>
+<span class="fc bfc" id="L128" title="All 2 branches covered.">                        else if (c.wasRemoved())</span>
+                        {
+<span class="fc" id="L130">                            list.subList(c.getFrom(), c.getFrom() + c.getRemovedSize()).clear();</span>
+                        }
+<span class="pc bpc" id="L132" title="1 of 2 branches missed.">                        else if (c.wasAdded())</span>
+                        {
+<span class="fc" id="L134">                            list.addAll(c.getFrom(),</span>
+<span class="fc" id="L135">                                        c.getAddedSubList()</span>
+<span class="fc" id="L136">                                         .stream()</span>
+<span class="fc" id="L137">                                         .map(mapper)</span>
+<span class="fc" id="L138">                                         .collect(Collectors.toCollection(() -&gt; new ArrayList&lt;&gt;(c.getAddedSize()))));</span>
+                        }
+                    }
+                }
+            }
+<span class="fc" id="L143">        }</span>
+
+        @Override
+        public boolean wasGarbageCollected()
+        {
+<span class="nc bnc" id="L148" title="All 2 branches missed.">            return destRef.get() == null;</span>
+        }
+
+        @Override
+        public int hashCode()
+        {
+<span class="nc" id="L154">            final List&lt;R&gt; list = destRef.get();</span>
+<span class="nc bnc" id="L155" title="All 2 branches missed.">            return (list == null) ? 0 : list.hashCode();</span>
+        }
+
+        @Override
+        public boolean equals(final Object obj)
+        {
+<span class="pc bpc" id="L161" title="1 of 2 branches missed.">            if (this == obj)</span>
+            {
+<span class="nc" id="L163">                return true;</span>
+            }
+
+<span class="fc" id="L166">            final List&lt;R&gt; list1 = destRef.get();</span>
+<span class="pc bpc" id="L167" title="1 of 2 branches missed.">            if (list1 == null)</span>
+            {
+<span class="nc" id="L169">                return false;</span>
+            }
+
+<span class="pc bpc" id="L172" title="1 of 2 branches missed.">            if (obj instanceof IFXListContentBinding&lt;?, ?&gt;)</span>
+            {
+<span class="fc" id="L174">                final IFXListContentBinding&lt;?, ?&gt; other = (IFXListContentBinding&lt;?, ?&gt;) obj;</span>
+<span class="fc" id="L175">                final List&lt;?&gt; list2 = other.destRef.get();</span>
+<span class="fc bfc" id="L176" title="All 2 branches covered.">                return list1 == list2;</span>
+            }
+<span class="nc" id="L178">            return false;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>
